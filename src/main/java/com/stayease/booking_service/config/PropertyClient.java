@@ -1,5 +1,6 @@
 package com.stayease.booking_service.config;
 
+import com.stayease.booking_service.dto.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,13 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 )
 public interface PropertyClient {
 
-    @GetMapping("/properties/{id}/availability")
-    boolean checkAvailability(@PathVariable Long id);
+    @GetMapping("properties/rooms/availability/{roomId}")
+    ApiResponse<Boolean> checkAvailability(@PathVariable Long roomId);
 
-    @PutMapping("/properties/rooms/{roomId}/reserve")
+    @PutMapping("/properties/rooms/reserverroom/{roomId}")
     void reserveRoom(@PathVariable Long roomId);
 
-    @PutMapping("/properties/rooms/{roomId}/release")
+    @PutMapping("/properties/rooms/releaseroom/{roomId}")
     void releaseRoom(@PathVariable Long roomId);
 
 

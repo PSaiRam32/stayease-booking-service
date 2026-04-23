@@ -1,0 +1,64 @@
+#spring:
+#  application:
+#    name: booking-service-test
+#
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
+#
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    hibernate:
+#      ddl-auto: create-drop
+#    show-sql: false
+#
+#  security:
+#    user:
+#      name: user
+#      password: password
+#
+#server:
+#  port: 8085
+#
+#feign:
+#  client:
+#    config:
+#      default:
+#        connectTimeout: 5000
+#        readTimeout: 5000
+#        loggerLevel: BASIC
+#
+#services:
+#  property:
+#    url: http://localhost:8084
+#  payment:
+#    url: http://localhost:8086
+#  notification:
+#    url: http://localhost:8087
+#  user:
+#    url: http://localhost:8082
+#
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      paymentCB:
+#        registerHealthIndicator: true
+#        slidingWindowSize: 10
+#        minimumNumberOfCalls: 5
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        automaticTransitionFromOpenToHalfOpenEnabled: true
+#        waitDurationInOpenState: 5000
+#        failureRateThreshold: 50
+#  retry:
+#    instances:
+#      paymentRetry:
+#        maxAttempts: 3
+#        waitDuration: 1000
+#
+#logging:
+#  level:
+#    root: INFO
+#    com.stayease: DEBUG
+#

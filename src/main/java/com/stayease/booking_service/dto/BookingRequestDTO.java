@@ -7,7 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BookingRequestDTO {
-    private Long userId;
+    @NotNull(message = "User ID is required")
+    private String userId;
+    @NotNull(message = "Property ID is required")
     private Long propertyId;
     @NotNull(message = "Room ID is required")
     private Long roomId;

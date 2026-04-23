@@ -1,7 +1,8 @@
 package com.stayease.booking_service.config;
 
-import com.stayease.booking_service.dto.PaymentRequestDTO;
-import com.stayease.booking_service.dto.PaymentResponseDTO;
+import com.stayease.booking_service.dto.ApiResponse;
+import com.stayease.booking_service.dto.PaymentOrderRequestDTO;
+import com.stayease.booking_service.dto.PaymentOrderResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface PaymentClient {
 
-    @PostMapping("/payments/initiate")
-    PaymentResponseDTO initiatePayment(@RequestBody PaymentRequestDTO request);
+    @PostMapping("/payments/order")
+    ApiResponse<PaymentOrderResponseDTO> createPaymentOrder(
+            @RequestBody PaymentOrderRequestDTO request
+    );
 }

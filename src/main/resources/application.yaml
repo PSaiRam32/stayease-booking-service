@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
 
 server:
@@ -37,7 +37,7 @@ services:
     url: http://localhost:8082
 
 resilience4j:
-  circuitbreaker:
+  circuit breaker:
     instances:
       paymentCB:
         registerHealthIndicator: true
@@ -56,4 +56,11 @@ resilience4j:
 
 logging:
   level:
-    io.github.resilience4j: DEBUG
+    root: INFO
+    com.stayease.booking_service: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
+    feign: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

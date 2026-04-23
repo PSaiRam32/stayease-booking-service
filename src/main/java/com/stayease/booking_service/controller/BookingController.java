@@ -4,12 +4,14 @@ import com.stayease.booking_service.dto.*;
 import com.stayease.booking_service.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/bookings")
 @RequiredArgsConstructor
@@ -17,42 +19,90 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @PostMapping
+    @PostMapping("/createbooking")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<ApiResponse<BookingResponseDTO>> createBooking(
             @Valid @RequestBody BookingRequestDTO request) {
-        return ResponseEntity.ok(
-                new ApiResponse<>("SUCCESS", "Booking created",
-                        bookingService.createBooking(request))
-        );
+        log.info("POST /bookings/createbooking - Creating booking for room: {}", request.getRoomId());
+        try {
+            BookingResponseDTO response = bookingService.createBooking(request);
+            log.info("Booking created successfully with ID: {}", response.getBookingId());
+            return ResponseEntity.ok(
+                    new ApiResponse<>("SUCCESS", "Booking created successfully", response)
+            );
+        } catch (Exception ex) {
+            log.error("Error creating booking: {}", ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
-
-    @GetMapping("/{id}")
+    @GetMapping("/getbooking/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<ApiResponse<BookingResponseDTO>> getBooking(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                new ApiResponse<>("SUCCESS", "Booking fetched",
-                        bookingService.getBooking(id))
-        );
+        log.info("GET /bookings/getbooking/{} - Fetching booking details", id);
+        try {
+            BookingResponseDTO response = bookingService.getBooking(id);
+            log.info("Booking retrieved successfully: {}", id);
+            return ResponseEntity.ok(
+                    new ApiResponse<>("SUCCESS", "Booking fetched successfully", response)
+            );
+        } catch (Exception ex) {
+            log.error("Error fetching booking: {}", ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
-    @PutMapping("/{id}/cancel")
+    @PutMapping("/cancelbooking/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<ApiResponse<BookingResponseDTO>> cancelBooking(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                new ApiResponse<>("SUCCESS", "Booking cancelled",
-                        bookingService.cancelBooking(id))
-        );
+        log.info("PUT /bookings/cancelbooking/{} - Cancelling booking", id);
+        try {
+            BookingResponseDTO response = bookingService.cancelBooking(id);
+            log.info("Booking cancelled successfully: {}", id);
+            return ResponseEntity.ok(
+                    new ApiResponse<>("SUCCESS", "Booking cancelled successfully", response)
+            );
+        } catch (Exception ex) {
+            log.error("Error cancelling booking: {}", ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/getuserbookinguser")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getUserBookings() {
+        log.info("GET /bookings/getuserbookinguser - Fetching all user bookings");
+        try {
+            List<BookingResponseDTO> response = bookingService.getUserBookings();
+            log.info("Retrieved {} bookings for user", response.size());
+            return ResponseEntity.ok(
+                    new ApiResponse<>("SUCCESS", "User bookings fetched successfully", response)
+            );
+        } catch (Exception ex) {
+            log.error("Error fetching user bookings: {}", ex.getMessage(), ex);
+            throw ex;
+        }
+    }
+
+    @PutMapping("/status/{bookingId}")
+    public ResponseEntity<ApiResponse<String>> updateBookingStatus(
+            @PathVariable Long bookingId,
+            @RequestBody BookingStatusUpdateDTO request) {
+        bookingService.updateBookingStatus(bookingId, request);
         return ResponseEntity.ok(
-                new ApiResponse<>("SUCCESS", "User bookings fetched",
-                        bookingService.getUserBookings())
+                new ApiResponse<>("SUCCESS", "Booking status updated", "OK")
         );
     }
 
+    @PutMapping("/{id}/confirm")
+    public ResponseEntity<ApiResponse> confirmBooking(@PathVariable Long id) {
+        bookingService.confirmBooking(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/fail")
+    public ResponseEntity<ApiResponse> failBooking(@PathVariable Long id) {
+        bookingService.failBooking(id);
+        return ResponseEntity.ok().build();
+    }
 }
