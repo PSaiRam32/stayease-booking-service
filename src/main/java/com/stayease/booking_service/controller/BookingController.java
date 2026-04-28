@@ -36,13 +36,13 @@ public class BookingController {
         }
     }
 
-    @GetMapping("/getbooking/{id}")
+    @GetMapping("/getbooking/{bookingId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<ApiResponse<BookingResponseDTO>> getBooking(@PathVariable Long id) {
-        log.info("GET /bookings/getbooking/{} - Fetching booking details", id);
+    public ResponseEntity<ApiResponse<BookingResponseDTO>> getBooking(@PathVariable Long bookingId) {
+        log.info("GET /bookings/getbooking/{} - Fetching booking details", bookingId);
         try {
-            BookingResponseDTO response = bookingService.getBooking(id);
-            log.info("Booking retrieved successfully: {}", id);
+            BookingResponseDTO response = bookingService.getBooking(bookingId);
+            log.info("Booking retrieved successfully: {}", bookingId);
             return ResponseEntity.ok(
                     new ApiResponse<>("SUCCESS", "Booking fetched successfully", response)
             );
@@ -52,13 +52,13 @@ public class BookingController {
         }
     }
 
-    @PutMapping("/cancelbooking/{id}")
+    @PutMapping("/cancelbooking/{bookingId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<ApiResponse<BookingResponseDTO>> cancelBooking(@PathVariable Long id) {
-        log.info("PUT /bookings/cancelbooking/{} - Cancelling booking", id);
+    public ResponseEntity<ApiResponse<BookingResponseDTO>> cancelBooking(@PathVariable Long bookingId) {
+        log.info("PUT /bookings/cancelbooking/{} - Cancelling booking", bookingId);
         try {
-            BookingResponseDTO response = bookingService.cancelBooking(id);
-            log.info("Booking cancelled successfully: {}", id);
+            BookingResponseDTO response = bookingService.cancelBooking(bookingId);
+            log.info("Booking cancelled successfully: {}", bookingId);
             return ResponseEntity.ok(
                     new ApiResponse<>("SUCCESS", "Booking cancelled successfully", response)
             );
@@ -94,15 +94,15 @@ public class BookingController {
         );
     }
 
-    @PutMapping("/{id}/confirm")
-    public ResponseEntity<ApiResponse> confirmBooking(@PathVariable Long id) {
-        bookingService.confirmBooking(id);
+    @PutMapping("/{bookingId}/confirm")
+    public ResponseEntity<ApiResponse> confirmBooking(@PathVariable Long bookingId) {
+        bookingService.confirmBooking(bookingId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/fail")
-    public ResponseEntity<ApiResponse> failBooking(@PathVariable Long id) {
-        bookingService.failBooking(id);
+    @PutMapping("/{bookingId}/fail")
+    public ResponseEntity<ApiResponse> failBooking(@PathVariable Long bookingId) {
+        bookingService.failBooking(bookingId);
         return ResponseEntity.ok().build();
     }
 }

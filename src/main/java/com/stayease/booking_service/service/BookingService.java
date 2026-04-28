@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface BookingService {
     BookingResponseDTO createBooking(BookingRequestDTO request);
-    BookingResponseDTO getBooking(Long id);
-    BookingResponseDTO cancelBooking(Long id);
+    BookingResponseDTO getBooking(Long bookingId);
+    BookingResponseDTO cancelBooking(Long bookingId);
     List<BookingResponseDTO> getUserBookings();
     void updateBookingStatus(Long bookingId, BookingStatusUpdateDTO request);
     void confirmBooking(Long bookingId);

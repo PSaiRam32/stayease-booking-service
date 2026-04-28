@@ -37,22 +37,28 @@ services:
     url: http://localhost:8082
 
 resilience4j:
-  circuit breaker:
-    instances:
-      paymentCB:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        minimumNumberOfCalls: 5
-        permittedNumberOfCallsInHalfOpenState: 3
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5000
-        failureRateThreshold: 50
   retry:
     instances:
-      paymentRetry:
-        maxAttempts: 3
-        waitDuration: 1000
+      userRetry:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - feign.FeignException
+          - java.io.IOException
 
+  circuit breaker:
+    instances:
+      userCB:
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
+  feign:
+    client:
+      config:
+        default:
+          connectTimeout: 5000     # default ~1000ms
+          readTimeout: 10000       # default ~2000ms
 
 logging:
   level:

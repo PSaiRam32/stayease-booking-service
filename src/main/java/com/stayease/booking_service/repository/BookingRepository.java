@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    Optional<Booking> findByIdAndIsActiveTrue(Long id);
+    Optional<Booking> findByBookingIdAndIsActiveTrue(Long bookingId);
     List<Booking> findByUserIdAndIsActiveTrue(String userId);
     Optional<Booking> findByUserIdAndRoomIdAndStatusIn(
             String userId,
