@@ -68,18 +68,32 @@ public class BookingController {
         }
     }
 
-    @GetMapping("/getuserbookinguser")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getUserBookings() {
-        log.info("GET /bookings/getuserbookinguser - Fetching all user bookings");
+//    @GetMapping("/getuserbookinguser")
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getUserBookings() {
+//        log.info("GET /bookings/getuserbookinguser - Fetching all user bookings");
+//        try {
+//            List<BookingResponseDTO> response = bookingService.getUserBookings();
+//            log.info("Retrieved {} bookings for user", response.size());
+//            return ResponseEntity.ok(
+//                    new ApiResponse<>("SUCCESS", "User bookings fetched successfully", response)
+//            );
+//        } catch (Exception ex) {
+//            log.error("Error fetching user bookings: {}", ex.getMessage(), ex);
+//            throw ex;
+//        }
+//    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getBookingsByUserId(@PathVariable Long userId) {
+        log.info("GET /bookings/user/{} - Fetching bookings for user", userId);
         try {
-            List<BookingResponseDTO> response = bookingService.getUserBookings();
-            log.info("Retrieved {} bookings for user", response.size());
+            List<BookingResponseDTO> response = bookingService.getBookingsByUserId(userId);
+            log.info("Retrieved {} bookings for user ID: {}", response.size(), userId);
             return ResponseEntity.ok(
-                    new ApiResponse<>("SUCCESS", "User bookings fetched successfully", response)
+                    new ApiResponse<>("SUCCESS", "Bookings fetched successfully", response)
             );
         } catch (Exception ex) {
-            log.error("Error fetching user bookings: {}", ex.getMessage(), ex);
+            log.error("Error fetching bookings for user ID: {}: {}", userId, ex.getMessage(), ex);
             throw ex;
         }
     }

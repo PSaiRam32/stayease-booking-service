@@ -7,8 +7,9 @@ public interface BookingService {
     BookingResponseDTO createBooking(BookingRequestDTO request);
     BookingResponseDTO getBooking(Long bookingId);
     BookingResponseDTO cancelBooking(Long bookingId);
-    List<BookingResponseDTO> getUserBookings();
+//    List<BookingResponseDTO> getUserBookings();
     void updateBookingStatus(Long bookingId, BookingStatusUpdateDTO request);
     void confirmBooking(Long bookingId);
     void failBooking(Long bookingId);
+    List<BookingResponseDTO> getBookingsByUserId(Long userId);
 }

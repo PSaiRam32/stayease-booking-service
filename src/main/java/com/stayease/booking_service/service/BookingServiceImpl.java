@@ -203,15 +203,26 @@ public class BookingServiceImpl implements BookingService {
         return mapToDTO(booking);
     }
 
-    @Override
-    public List<BookingResponseDTO> getUserBookings() {
-        String userId = getLoggedInUser();
-        log.info("Fetching all bookings for user: {}", userId);
-        List<BookingResponseDTO> bookings = bookingRepository.findByUserIdAndIsActiveTrue(userId)
+//    @Override
+//    public List<BookingResponseDTO> getUserBookings() {
+//        String userId = getLoggedInUser();
+//        log.info("Fetching all bookings for user: {}", userId);
+//        List<BookingResponseDTO> bookings = bookingRepository.findByUserIdAndIsActiveTrue(userId)
+//                .stream()
+//                .map(this::mapToDTO)
+//                .toList();
+//        log.debug("Retrieved {} bookings for user: {}", bookings.size(), userId);
+//        return bookings;
+//    }
+
+
+    public List<BookingResponseDTO> getBookingsByUserId(Long userId) {
+        log.info("Fetching all bookings for user ID: {}", userId);
+        List<BookingResponseDTO> bookings = bookingRepository.findByUserIdAndIsActiveTrue(String.valueOf(userId))
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
-        log.debug("Retrieved {} bookings for user: {}", bookings.size(), userId);
+        log.debug("Retrieved {} bookings for user ID: {}", bookings.size(), userId);
         return bookings;
     }
 
@@ -393,8 +404,9 @@ public class BookingServiceImpl implements BookingService {
         return BookingResponseDTO.builder()
                 .bookingId(booking.getBookingId())
                 .userId(booking.getUserId())
+                .propertyId(booking.getPropertyId())
                 .roomId(booking.getRoomId())
-                .status(booking.getStatus().name())
+                .bookingStatus(booking.getStatus().name())
                 .totalPrice(booking.getTotalPrice())
                 .build();
     }
