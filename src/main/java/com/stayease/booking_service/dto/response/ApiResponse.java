@@ -1,4 +1,4 @@
-package com.stayease.booking_service.dto;
+package com.stayease.booking_service.dto.response;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiResponse<T> {
+public class ApiResponse<T>{
     private String status;
     private String message;
     private T data;
