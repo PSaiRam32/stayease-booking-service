@@ -10,7 +10,6 @@ public interface BookingService{
     BookingResponse createBooking(BookingRequest request);
     BookingResponse getBooking(Long bookingId);
     List<BookingResponse> getBookingsByUserId(Long userId);
-    void confirmBooking(Long bookingId);
     void checkInBooking(Long bookingId);
     void checkOutBooking(Long bookingId);
     void completeBooking(Long bookingId);
@@ -19,6 +18,7 @@ public interface BookingService{
     List<BookingResponse> getUpcomingBookings();
     List<BookingResponse> getCompletedBookings();
     void rescheduleBooking(Long bookingId, BookingRescheduleRequest request);
+    void confirmBooking(Long bookingId);
     void failBooking(Long bookingId);
     //    BookingResponse cancelBooking(Long bookingId);
     //    List<BookingResponseDTO> getUserBookings();

@@ -1,5 +1,7 @@
 package com.stayease.booking_service.dto.response;
 
+import com.stayease.booking_service.entity.PropertyStatus;
+import com.stayease.booking_service.entity.WashroomType;
 import lombok.*;
 
 @Getter
@@ -14,6 +16,6 @@ public class RoomDetailsResponse{
     private Integer sharingCapacity;
     private Double price;
 //    private Integer availableCount;
-    private String washroomType;
-    private String propertyStatus;
+    private WashroomType washroomType;
+    private PropertyStatus propertyStatus;
 }

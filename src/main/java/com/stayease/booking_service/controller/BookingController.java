@@ -42,13 +42,6 @@ public class BookingController{
             return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Bookings fetched successfully", response));
     }
 
-    @PutMapping("/{bookingId}/confirm")
-    public ResponseEntity<ApiResponse<Void>> confirmBooking(@PathVariable Long bookingId){
-        bookingService.confirmBooking(bookingId);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS","Booking Confirmed Successfully",null));
-    }
-
-
     @PutMapping("/{bookingId}/check-in")
     public ResponseEntity<ApiResponse<Void>> checkIn(@PathVariable Long bookingId){
         bookingService.checkInBooking(bookingId);
@@ -96,6 +89,13 @@ public class BookingController{
     public ResponseEntity<ApiResponse<Void>> rescheduleBooking(@PathVariable Long bookingId,@Valid @RequestBody BookingRescheduleRequest request){
         bookingService.rescheduleBooking(bookingId,request);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Booking rescheduled successfully.", null));
+    }
+
+    //Endpoints used in Payment Servic
+    @PutMapping("/{bookingId}/confirm")
+    public ResponseEntity<ApiResponse<Void>> confirmBooking(@PathVariable Long bookingId){
+        bookingService.confirmBooking(bookingId);
+        return ResponseEntity.ok(new ApiResponse<>("SUCCESS","Booking Confirmed Successfully",null));
     }
 
     @PutMapping("/{bookingId}/fail")

@@ -1,0 +1,898 @@
+2026-04-17 11:40:25 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 17468 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 11:40:25 [main] DEBUG c.s.b.BookingServiceApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-04-17 11:40:25 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:40:28 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:40:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 11:40:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 138 ms. Found 1 JPA repository interface.
+2026-04-17 11:40:30 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=1de62add-9f24-3d2b-9d04-3c648235d481
+2026-04-17 11:40:32 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 11:40:32 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 11:40:32 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 11:40:33 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 11:40:33 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7268 ms
+2026-04-17 11:40:33 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 11:40:34 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 11:40:34 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 11:40:35 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 11:40:35 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 11:40:36 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6d4c18b8
+2026-04-17 11:40:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 11:40:39 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 11:40:41 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 11:40:43 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 11:40:44 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a1d9bdc1-4864-4ef1-80da-12c9cda015ec
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 11:40:45 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 11:40:45 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 11:40:45 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1ff55410, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@53628ff6, org.springframework.security.web.context.SecurityContextHolderFilter@1c7da28, org.springframework.security.web.header.HeaderWriterFilter@276ac94c, org.springframework.web.filter.CorsFilter@505e8d48, org.springframework.security.web.authentication.logout.LogoutFilter@20072ff1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1ea482b4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4df8f4e9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3841e77a, org.springframework.security.web.access.ExceptionTranslationFilter@16cc5e51, org.springframework.security.web.access.intercept.AuthorizationFilter@9223122]
+2026-04-17 11:40:46 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 11:40:46 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 11:40:47 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 11:40:47 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 23.467 seconds (process running for 24.986)
+2026-04-17 11:40:47 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 11:40:47 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html
+2026-04-17 11:42:04 [http-nio-8085-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-17 11:42:04 [http-nio-8085-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6f0124b5
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@357f0cc9
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-17 11:42:04 [http-nio-8085-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /bookings/createbooking
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - POST "/bookings/createbooking", parameters={}
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.stayease.booking_service.controller.BookingController#createBooking(BookingRequestDTO)
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [com.stayease.booking_service.dto.request.BookingRequest@7c0be1d9]
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.s.a.m.AuthorizationManagerBeforeMethodInterceptor - Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.stayease.booking_service.controller.BookingController.createBooking(com.stayease.booking_service.dto.request.BookingRequest); target is of class [com.stayease.booking_service.controller.BookingController]
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.s.a.m.AuthorizationManagerBeforeMethodInterceptor - Failed to authorize ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.stayease.booking_service.controller.BookingController.createBooking(com.stayease.booking_service.dto.request.BookingRequest); target is of class [com.stayease.booking_service.controller.BookingController] with authorization manager org.springframework.security.config.annotation.method.configuration.DeferringObservationAuthorizationManager@1d3ad61d and decision ExpressionAuthorizationDecision [granted=false, expressionAttribute=hasRole('ROLE_USER')]
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Using @ExceptionHandler com.stayease.booking_service.exception.GlobalExceptionHandler#handleRuntimeException(RuntimeException)
+2026-04-17 11:42:04 [http-nio-8085-exec-2] ERROR c.s.b.e.GlobalExceptionHandler - Runtime error: Access Denied
+org.springframework.security.access.AccessDeniedException: Access Denied
+	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.attemptAuthorization(AuthorizationManagerBeforeMethodInterceptor.java:256)
+	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.invoke(AuthorizationManagerBeforeMethodInterceptor.java:197)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.stayease.booking_service.controller.BookingController$$SpringCGLIB$$0.createBooking(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [ErrorResponse(code=RUNTIME_ERROR, message=Access Denied, timestamp=2026-04-17T11:42:04.629838100)]
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.security.access.AccessDeniedException: Access Denied]
+2026-04-17 11:42:04 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 500 INTERNAL_SERVER_ERROR
+2026-04-17 11:46:37 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 10376 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 11:46:37 [main] DEBUG c.s.b.BookingServiceApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-04-17 11:46:37 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 11:46:40 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 11:46:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 11:46:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 103 ms. Found 1 JPA repository interface.
+2026-04-17 11:46:42 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=1de62add-9f24-3d2b-9d04-3c648235d481
+2026-04-17 11:46:44 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 11:46:44 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 11:46:44 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 11:46:44 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 11:46:44 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 6853 ms
+2026-04-17 11:46:45 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 11:46:45 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 11:46:45 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 11:46:46 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 11:46:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 11:46:47 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@15c1b543
+2026-04-17 11:46:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 11:46:50 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 11:46:51 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 11:46:53 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 11:46:54 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: cb36bb02-7030-45f8-8852-66d311efd13c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 11:46:54 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 11:46:55 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 11:46:55 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3b4a77be, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1ff55410, org.springframework.security.web.context.SecurityContextHolderFilter@24c4370a, org.springframework.security.web.header.HeaderWriterFilter@6a434cdd, org.springframework.web.filter.CorsFilter@53628ff6, org.springframework.security.web.authentication.logout.LogoutFilter@3bde85b0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7ae49d52, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@121ec5c2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@505e8d48, org.springframework.security.web.access.ExceptionTranslationFilter@72090a80, org.springframework.security.web.access.intercept.AuthorizationFilter@5ac3c6cd]
+2026-04-17 11:46:55 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 11:46:56 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 11:46:57 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 11:46:57 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 21.963 seconds (process running for 23.274)
+2026-04-17 11:46:57 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 11:46:57 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html
+2026-04-17 11:47:14 [http-nio-8085-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-17 11:47:14 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-17 11:47:14 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2026-04-17 11:47:14 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2026-04-17 11:47:14 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2026-04-17 11:47:14 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@1d280bab
+2026-04-17 11:47:14 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@71c264e5
+2026-04-17 11:47:14 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-17 11:47:14 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 8 ms
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui.html
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui.html
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui.html", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc#redirectToUi(HttpServletRequest)
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7] and supported [application/json, application/*+json]
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Nothing to write: null body
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 302 FOUND
+2026-04-17 11:47:15 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/index.html
+2026-04-17 11:47:15 [http-nio-8085-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/index.html
+2026-04-17 11:47:15 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/index.html", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-2] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/swagger-ui.css
+2026-04-17 11:47:15 [http-nio-8085-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/swagger-ui.css
+2026-04-17 11:47:15 [http-nio-8085-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/swagger-ui.css", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/swagger-ui-bundle.js
+2026-04-17 11:47:15 [http-nio-8085-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/swagger-ui-standalone-preset.js
+2026-04-17 11:47:15 [http-nio-8085-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/swagger-ui-bundle.js
+2026-04-17 11:47:15 [http-nio-8085-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/swagger-ui-standalone-preset.js
+2026-04-17 11:47:15 [http-nio-8085-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/swagger-ui-standalone-preset.js", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/swagger-initializer.js
+2026-04-17 11:47:15 [http-nio-8085-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/swagger-initializer.js
+2026-04-17 11:47:15 [http-nio-8085-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/index.css
+2026-04-17 11:47:15 [http-nio-8085-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/swagger-initializer.js", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/swagger-ui-bundle.js", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-6] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-7] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-5] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/index.css
+2026-04-17 11:47:15 [http-nio-8085-exec-3] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/index.css", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-4] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /v3/api-docs/swagger-config
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /v3/api-docs/swagger-config
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/v3/api-docs/swagger-config", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2026-04-17 11:47:15 [http-nio-8085-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /swagger-ui/favicon-32x32.png
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json]
+2026-04-17 11:47:15 [http-nio-8085-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /swagger-ui/favicon-32x32.png
+2026-04-17 11:47:15 [http-nio-8085-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/swagger-ui/favicon-32x32.png", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{configUrl=/v3/api-docs/swagger-config, oauth2RedirectUrl=http://localhost:8085/swagger-ui/oauth2-re (truncated)...]
+2026-04-17 11:47:15 [http-nio-8085-exec-9] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-04-17 11:47:15 [http-nio-8085-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:15 [http-nio-8085-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:15 [http-nio-8085-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /v3/api-docs
+2026-04-17 11:47:15 [http-nio-8085-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /v3/api-docs
+2026-04-17 11:47:15 [http-nio-8085-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/v3/api-docs", parameters={}
+2026-04-17 11:47:15 [http-nio-8085-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2026-04-17 11:47:17 [http-nio-8085-exec-10] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1105 ms
+2026-04-17 11:47:17 [http-nio-8085-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, */*] and supported [application/json]
+2026-04-17 11:47:17 [http-nio-8085-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 48, 46, 49, 34, 44, 34, 105, 110, 10 (truncated)...]
+2026-04-17 11:47:17 [http-nio-8085-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-04-17 11:47:17 [http-nio-8085-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:53 [http-nio-8085-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 11:47:53 [http-nio-8085-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /bookings/createbooking
+2026-04-17 11:47:53 [http-nio-8085-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - POST "/bookings/createbooking", parameters={}
+2026-04-17 11:47:53 [http-nio-8085-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.stayease.booking_service.controller.BookingController#createBooking(BookingRequestDTO)
+2026-04-17 11:47:53 [http-nio-8085-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [com.stayease.booking_service.dto.request.BookingRequest@329c1a0a]
+2026-04-17 11:47:53 [http-nio-8085-exec-5] INFO  c.s.b.controller.BookingController - POST /bookings/createbooking - Creating booking for room: 2
+2026-04-17 11:47:53 [http-nio-8085-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:47:53 [http-nio-8085-exec-5] INFO  c.s.b.service.BookingServiceImpl - Creating booking for user: anonymousUser with room ID: 2
+2026-04-17 11:47:54 [http-nio-8085-exec-5] DEBUG c.s.b.service.BookingServiceImpl - Checking availability for room: 2
+2026-04-17 11:47:54 [http-nio-8085-exec-5] DEBUG c.s.b.config.FeignClientConfig - Feign request prepared for /properties/rooms/availability/2
+2026-04-17 11:47:54 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] ---> GET http://localhost:8084/properties/rooms/availability/2 HTTP/1.1
+2026-04-17 11:47:54 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] ---> END HTTP (0-byte body)
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] <--- HTTP/1.1 401 (5878ms)
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] cache-control: no-cache, no-store, max-age=0, must-revalidate
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] connection: keep-alive
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] content-length: 0
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] date: Fri, 17 Apr 2026 06:18:00 GMT
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] expires: 0
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] keep-alive: timeout=60
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] pragma: no-cache
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] set-cookie: JSESSIONID=38BD28E632413EA3237812BB8CE9D229; Path=/; HttpOnly
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] vary: Origin
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] vary: Access-Control-Request-Method
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] vary: Access-Control-Request-Headers
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] www-authenticate: Basic realm="Realm"
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] x-content-type-options: nosniff
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] x-frame-options: DENY
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] x-xss-protection: 0
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] <--- END HTTP (0-byte body)
+2026-04-17 11:48:00 [http-nio-8085-exec-5] ERROR c.s.b.config.FeignErrorDecoder - Feign client error - Method: PropertyClient#checkAvailability(Long), Status: 401, Reason: null
+2026-04-17 11:48:00 [http-nio-8085-exec-5] ERROR c.s.b.controller.BookingController - Error creating booking: Feign client error from PropertyClient#checkAvailability(Long) with status: 401
+com.stayease.booking_service.exception.BusinessException: Feign client error from PropertyClient#checkAvailability(Long) with status: 401
+	at com.stayease.booking_service.config.FeignErrorDecoder.decode(FeignErrorDecoder.java:32)
+	at feign.InvocationContext.decodeError(InvocationContext.java:126)
+	at feign.InvocationContext.proceed(InvocationContext.java:72)
+	at feign.ResponseHandler.handleResponse(ResponseHandler.java:63)
+	at feign.SynchronousMethodHandler.executeAndDecode(SynchronousMethodHandler.java:114)
+	at feign.SynchronousMethodHandler.invoke(SynchronousMethodHandler.java:70)
+	at feign.ReflectiveFeign$FeignInvocationHandler.invoke(ReflectiveFeign.java:99)
+	at jdk.proxy2/jdk.proxy2.$Proxy150.checkAvailability(Unknown Source)
+	at com.stayease.booking_service.service.BookingServiceImpl.createBooking(BookingServiceImpl.java:57)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.stayease.booking_service.service.BookingServiceImpl$$SpringCGLIB$$0.createBooking(<generated>)
+	at com.stayease.booking_service.controller.BookingController.createBooking(BookingController.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Using @ExceptionHandler com.stayease.booking_service.exception.GlobalExceptionHandler#handleBusinessException(BusinessException)
+2026-04-17 11:48:00 [http-nio-8085-exec-5] WARN  c.s.b.e.GlobalExceptionHandler - Business error: Feign client error from PropertyClient#checkAvailability(Long) with status: 401
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [ErrorResponse(code=BUSINESS_ERROR, message=Feign client error from PropertyClient#checkAvailability( (truncated)...]
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.stayease.booking_service.exception.BusinessException: Feign client error from PropertyClient#checkAvailability(Long) with status: 401]
+2026-04-17 11:48:00 [http-nio-8085-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 400 BAD_REQUEST
+2026-04-17 11:54:15 [http-nio-8085-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 11:54:15 [http-nio-8085-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /bookings/createbooking
+2026-04-17 11:54:15 [http-nio-8085-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - POST "/bookings/createbooking", parameters={}
+2026-04-17 11:54:15 [http-nio-8085-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.stayease.booking_service.controller.BookingController#createBooking(BookingRequestDTO)
+2026-04-17 11:54:16 [http-nio-8085-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [com.stayease.booking_service.dto.request.BookingRequest@59092e00]
+2026-04-17 11:54:18 [http-nio-8085-exec-7] INFO  c.s.b.controller.BookingController - POST /bookings/createbooking - Creating booking for room: 2
+2026-04-17 11:54:19 [http-nio-8085-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 11:54:19 [http-nio-8085-exec-7] INFO  c.s.b.service.BookingServiceImpl - Creating booking for user: anonymousUser with room ID: 2
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.service.BookingServiceImpl - Checking availability for room: 2
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.FeignClientConfig - Feign request prepared for /properties/rooms/availability/2
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] ---> GET http://localhost:8084/properties/rooms/availability/2 HTTP/1.1
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] ---> END HTTP (0-byte body)
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] <--- HTTP/1.1 401 (294ms)
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] cache-control: no-cache, no-store, max-age=0, must-revalidate
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] connection: keep-alive
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] content-length: 0
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] date: Fri, 17 Apr 2026 06:24:22 GMT
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] expires: 0
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] keep-alive: timeout=60
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] pragma: no-cache
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] set-cookie: JSESSIONID=A056026A7DA74E31ED585255B788EBCA; Path=/; HttpOnly
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] vary: Origin
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] vary: Access-Control-Request-Method
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] vary: Access-Control-Request-Headers
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] www-authenticate: Basic realm="Realm"
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] x-content-type-options: nosniff
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] x-frame-options: DENY
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] x-xss-protection: 0
+2026-04-17 11:54:22 [http-nio-8085-exec-7] DEBUG c.s.b.config.PropertyClient - [PropertyClient#checkAvailability] <--- END HTTP (0-byte body)
+2026-04-17 11:54:22 [http-nio-8085-exec-7] ERROR c.s.b.config.FeignErrorDecoder - Feign client error - Method: PropertyClient#checkAvailability(Long), Status: 401, Reason: null
+2026-04-17 11:54:22 [http-nio-8085-exec-7] ERROR c.s.b.controller.BookingController - Error creating booking: Feign client error from PropertyClient#checkAvailability(Long) with status: 401
+com.stayease.booking_service.exception.BusinessException: Feign client error from PropertyClient#checkAvailability(Long) with status: 401
+	at com.stayease.booking_service.config.FeignErrorDecoder.decode(FeignErrorDecoder.java:32)
+	at feign.InvocationContext.decodeError(InvocationContext.java:126)
+	at feign.InvocationContext.proceed(InvocationContext.java:72)
+	at feign.ResponseHandler.handleResponse(ResponseHandler.java:63)
+	at feign.SynchronousMethodHandler.executeAndDecode(SynchronousMethodHandler.java:114)
+	at feign.SynchronousMethodHandler.invoke(SynchronousMethodHandler.java:70)
+	at feign.ReflectiveFeign$FeignInvocationHandler.invoke(ReflectiveFeign.java:99)
+	at jdk.proxy2/jdk.proxy2.$Proxy150.checkAvailability(Unknown Source)
+	at com.stayease.booking_service.service.BookingServiceImpl.createBooking(BookingServiceImpl.java:57)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.stayease.booking_service.service.BookingServiceImpl$$SpringCGLIB$$0.createBooking(<generated>)
+	at com.stayease.booking_service.controller.BookingController.createBooking(BookingController.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-17 11:54:24 [http-nio-8085-exec-7] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Using @ExceptionHandler com.stayease.booking_service.exception.GlobalExceptionHandler#handleBusinessException(BusinessException)
+2026-04-17 11:54:25 [http-nio-8085-exec-7] WARN  c.s.b.e.GlobalExceptionHandler - Business error: Feign client error from PropertyClient#checkAvailability(Long) with status: 401
+2026-04-17 11:54:26 [http-nio-8085-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-17 11:54:26 [http-nio-8085-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [ErrorResponse(code=BUSINESS_ERROR, message=Feign client error from PropertyClient#checkAvailability( (truncated)...]
+2026-04-17 11:54:27 [http-nio-8085-exec-7] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.stayease.booking_service.exception.BusinessException: Feign client error from PropertyClient#checkAvailability(Long) with status: 401]
+2026-04-17 11:54:28 [http-nio-8085-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 400 BAD_REQUEST
+2026-04-17 12:06:05 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 5832 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 12:06:05 [main] DEBUG c.s.b.BookingServiceApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-04-17 12:06:05 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:06:08 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:06:09 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 12:06:09 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 174 ms. Found 1 JPA repository interface.
+2026-04-17 12:06:10 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=2aed582e-b98c-3d9e-941e-a9e446336594
+2026-04-17 12:06:12 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 12:06:12 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 12:06:12 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 12:06:13 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 12:06:13 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7664 ms
+2026-04-17 12:06:14 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 12:06:14 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 12:06:14 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 12:06:15 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 12:06:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 12:06:17 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1dcad16f
+2026-04-17 12:06:17 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 12:06:20 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 12:06:20 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 12:06:23 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 12:06:24 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 12:06:25 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 12:06:25 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 12:06:25 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 12:06:27 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 13cb380e-6684-4ae2-b96e-44f2f46356bb
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 12:06:27 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@20395afe, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2dfdea3a, org.springframework.security.web.context.SecurityContextHolderFilter@120bb5b5, org.springframework.security.web.header.HeaderWriterFilter@290964bd, org.springframework.web.filter.CorsFilter@4b1339bf, org.springframework.security.web.csrf.CsrfFilter@344d6bb3, org.springframework.security.web.authentication.logout.LogoutFilter@34adce96, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@470a2845, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@29c471f6, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@46f43f50, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@447cdbaa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@134b9d9c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6a17ab87, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2cf073da, org.springframework.security.web.access.ExceptionTranslationFilter@476d5f2e, org.springframework.security.web.access.intercept.AuthorizationFilter@6c633590]
+2026-04-17 12:06:28 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 12:06:28 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 24.571 seconds (process running for 25.751)
+2026-04-17 12:06:28 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 12:06:28 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html
+2026-04-17 12:07:40 [http-nio-8085-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-17 12:07:40 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@68fd0fba
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@2b3fd4d2
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-17 12:07:40 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 9 ms
+2026-04-17 12:07:40 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.security.web.csrf.CsrfFilter - Invalid CSRF token found for http://localhost:8085/bookings/createbooking
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AccessDeniedHandlerImpl - Responding with 403 status code
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /error
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using Or [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest], And [Not [MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[text/html], useEquals=false, ignoredMediaTypes=[]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[application/atom+xml, application/x-www-form-urlencoded, application/json, application/octet-stream, application/xml, multipart/form-data, text/xml], useEquals=false, ignoredMediaTypes=[*/*]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[*/*], useEquals=true, ignoredMediaTypes=[]]]
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Match found! Executing org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint@74a680d3
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]
+2026-04-17 12:07:41 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - No match found. Using default entry point org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint@6ed638ef
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.security.web.csrf.CsrfFilter - Invalid CSRF token found for http://localhost:8085/bookings/createbooking
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.AccessDeniedHandlerImpl - Responding with 403 status code
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /error
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using Or [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest], And [Not [MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[text/html], useEquals=false, ignoredMediaTypes=[]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[application/atom+xml, application/x-www-form-urlencoded, application/json, application/octet-stream, application/xml, multipart/form-data, text/xml], useEquals=false, ignoredMediaTypes=[*/*]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@3b870ed3, matchingMediaTypes=[*/*], useEquals=true, ignoredMediaTypes=[]]]
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Match found! Executing org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint@74a680d3
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]
+2026-04-17 12:08:20 [http-nio-8085-exec-3] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - No match found. Using default entry point org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint@6ed638ef
+2026-04-17 12:09:02 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 1900 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 12:09:02 [main] DEBUG c.s.b.BookingServiceApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-04-17 12:09:02 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:09:06 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:09:07 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 12:09:07 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 242 ms. Found 1 JPA repository interface.
+2026-04-17 12:09:08 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=2aed582e-b98c-3d9e-941e-a9e446336594
+2026-04-17 12:09:11 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 12:09:11 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 12:09:11 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 12:09:12 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 12:09:12 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9378 ms
+2026-04-17 12:09:12 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 12:09:13 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 12:09:13 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 12:09:14 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 12:09:14 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 12:09:15 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70700b8a
+2026-04-17 12:09:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 12:09:17 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 12:09:18 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 12:09:20 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 12:09:22 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 12:09:22 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 12:09:22 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 12:09:23 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 12:09:24 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: c7661a54-5c7c-465a-930f-951a14271d7e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 12:09:25 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3f35d13d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@482652f7, org.springframework.security.web.context.SecurityContextHolderFilter@4e881e14, org.springframework.security.web.header.HeaderWriterFilter@7daecd21, org.springframework.web.filter.CorsFilter@63f9c2cd, org.springframework.security.web.csrf.CsrfFilter@5ed52389, org.springframework.security.web.authentication.logout.LogoutFilter@7798de95, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6f36c42, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@4c0e09b5, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7b0a864e, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7acb8e6b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2564410b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@40b2aae9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6a271c2b, org.springframework.security.web.access.ExceptionTranslationFilter@3d1319b, org.springframework.security.web.access.intercept.AuthorizationFilter@4623c0d3]
+2026-04-17 12:09:25 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 12:09:25 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 25.051 seconds (process running for 26.558)
+2026-04-17 12:09:25 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 12:09:25 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html
+2026-04-17 12:10:28 [http-nio-8085-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-17 12:10:28 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5e7aa27e
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@1014c825
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-17 12:10:28 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 7 ms
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.security.web.csrf.CsrfFilter - Invalid CSRF token found for http://localhost:8085/bookings/createbooking
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AccessDeniedHandlerImpl - Responding with 403 status code
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /error
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@27ae6f9e, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using Or [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest], And [Not [MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@27ae6f9e, matchingMediaTypes=[text/html], useEquals=false, ignoredMediaTypes=[]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@27ae6f9e, matchingMediaTypes=[application/atom+xml, application/x-www-form-urlencoded, application/json, application/octet-stream, application/xml, multipart/form-data, text/xml], useEquals=false, ignoredMediaTypes=[*/*]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@27ae6f9e, matchingMediaTypes=[*/*], useEquals=true, ignoredMediaTypes=[]]]
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Match found! Executing org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint@411c5fa2
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]
+2026-04-17 12:10:28 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - No match found. Using default entry point org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint@5b3a432b
+2026-04-17 12:11:25 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 15868 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 12:11:25 [main] DEBUG c.s.b.BookingServiceApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-04-17 12:11:25 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:11:29 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:11:30 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 12:11:30 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 273 ms. Found 1 JPA repository interface.
+2026-04-17 12:11:32 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=2aed582e-b98c-3d9e-941e-a9e446336594
+2026-04-17 12:11:34 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 12:11:34 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 12:11:34 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 12:11:35 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 12:11:35 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9250 ms
+2026-04-17 12:11:35 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 12:11:36 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 12:11:36 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 12:11:37 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 12:11:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 12:11:38 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@44e79e9e
+2026-04-17 12:11:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 12:11:40 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 12:11:41 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 12:11:43 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 12:11:45 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 12:11:45 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 12:11:45 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 12:11:46 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 12:11:47 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 77e3422d-7845-4ea6-8a63-c6defec5411e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 12:11:48 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4f2ab774, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@f57ced1, org.springframework.security.web.context.SecurityContextHolderFilter@7335aae5, org.springframework.security.web.header.HeaderWriterFilter@6cd8aee2, org.springframework.web.filter.CorsFilter@1d9c18b9, org.springframework.security.web.csrf.CsrfFilter@d4df4ce, org.springframework.security.web.authentication.logout.LogoutFilter@2df019b8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1cfa5e46, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@6a17ab87, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@447cdbaa, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2e5337d8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@39d5376c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@484f7fad, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5e774546, org.springframework.security.web.access.ExceptionTranslationFilter@591e27f1, org.springframework.security.web.access.intercept.AuthorizationFilter@106c4a72]
+2026-04-17 12:11:48 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 12:11:48 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 25.709 seconds (process running for 27.171)
+2026-04-17 12:11:48 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 12:11:48 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html
+2026-04-17 12:12:21 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 8644 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 12:12:21 [main] DEBUG c.s.b.BookingServiceApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-04-17 12:12:21 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 12:12:25 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:12:25 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:12:25 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:12:25 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:12:26 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:12:26 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:12:26 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:12:26 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:12:26 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:12:26 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:12:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 12:12:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 355 ms. Found 1 JPA repository interface.
+2026-04-17 12:12:28 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=2aed582e-b98c-3d9e-941e-a9e446336594
+2026-04-17 12:12:31 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 12:12:31 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 12:12:31 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 12:12:32 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 12:12:32 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9648 ms
+2026-04-17 12:12:32 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 12:12:33 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 12:12:33 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 12:12:34 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 12:12:34 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 12:12:35 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@a1b7549
+2026-04-17 12:12:35 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 12:12:38 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 12:12:38 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 12:12:41 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 12:12:42 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 12:12:43 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 12:12:43 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 12:12:43 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 12:12:44 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 8106f619-c7fa-4583-89b5-914e3f7252e7
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 12:12:45 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2182ebc7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@543895d2, org.springframework.security.web.context.SecurityContextHolderFilter@5ec80bbd, org.springframework.security.web.header.HeaderWriterFilter@2564410b, org.springframework.web.filter.CorsFilter@3699c795, org.springframework.security.web.csrf.CsrfFilter@47bcb545, org.springframework.security.web.authentication.logout.LogoutFilter@7ae736a8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5bb0122, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@290964bd, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@193b6f5b, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@232e4e1d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5862a07b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6cd8aee2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2fd16368, org.springframework.security.web.access.ExceptionTranslationFilter@2c8174ce, org.springframework.security.web.access.intercept.AuthorizationFilter@5f7e2ca8]
+2026-04-17 12:12:46 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 12:12:46 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 26.082 seconds (process running for 27.346)
+2026-04-17 12:12:46 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 12:12:46 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html
+2026-04-17 12:13:05 [http-nio-8085-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-17 12:13:05 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@673218b2
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@7b99e726
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-17 12:13:05 [http-nio-8085-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /bookings/createbooking
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.security.web.csrf.CsrfFilter - Invalid CSRF token found for http://localhost:8085/bookings/createbooking
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AccessDeniedHandlerImpl - Responding with 403 status code
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /error
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@6efd83ac, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using Or [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest], And [Not [MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@6efd83ac, matchingMediaTypes=[text/html], useEquals=false, ignoredMediaTypes=[]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@6efd83ac, matchingMediaTypes=[application/atom+xml, application/x-www-form-urlencoded, application/json, application/octet-stream, application/xml, multipart/form-data, text/xml], useEquals=false, ignoredMediaTypes=[*/*]]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@6efd83ac, matchingMediaTypes=[*/*], useEquals=true, ignoredMediaTypes=[]]]
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Match found! Executing org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint@4988c303
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - Trying to match using RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]
+2026-04-17 12:13:05 [http-nio-8085-exec-1] DEBUG o.s.s.w.a.DelegatingAuthenticationEntryPoint - No match found. Using default entry point org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint@68928bc6
+2026-04-17 12:15:40 [main] INFO  c.s.b.BookingServiceApplication - Starting BookingServiceApplication using Java 21.0.10 with PID 10072 (D:\Stay Ease\booking-service\build\classes\java\main started by saira in D:\Stay Ease\booking-service)
+2026-04-17 12:15:40 [main] INFO  c.s.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.RxJava2OnClasspathCondition - RxJava2 related Aspect extensions are not activated, because RxJava2 is not on the classpath.
+2026-04-17 12:15:43 [main] DEBUG i.g.r.s.u.ReactorOnClasspathCondition - Reactor related Aspect extensions are not activated because Reactor is not on the classpath.
+2026-04-17 12:15:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-17 12:15:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 184 ms. Found 1 JPA repository interface.
+2026-04-17 12:15:45 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=2aed582e-b98c-3d9e-941e-a9e446336594
+2026-04-17 12:15:47 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8085 (http)
+2026-04-17 12:15:47 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-17 12:15:47 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-04-17 12:15:48 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-04-17 12:15:48 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7134 ms
+2026-04-17 12:15:49 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-17 12:15:49 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-04-17 12:15:49 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-04-17 12:15:50 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-17 12:15:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-17 12:15:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@254513e8
+2026-04-17 12:15:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-17 12:15:53 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-17 12:15:53 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-17 12:15:56 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-17 12:15:58 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 10 mappings in 'requestMappingHandlerMapping'
+2026-04-17 12:15:59 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-04-17 12:15:59 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-17 12:15:59 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-17 12:16:01 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 369c3436-fbd5-4755-9f34-a86f65d8ab30
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-17 12:16:01 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e93ee71, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1cfa5e46, org.springframework.security.web.context.SecurityContextHolderFilter@25fa5c0c, org.springframework.security.web.header.HeaderWriterFilter@13448d2d, org.springframework.web.filter.CorsFilter@4df5b562, org.springframework.security.web.csrf.CsrfFilter@74a680d3, org.springframework.security.web.authentication.logout.LogoutFilter@358b70c4, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1d07fb2, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@76527a00, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@3e4d197, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7b0a864e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@65c75870, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4c0e09b5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@222557fc, org.springframework.security.web.access.ExceptionTranslationFilter@30b5225b, org.springframework.security.web.access.intercept.AuthorizationFilter@2df019b8]
+2026-04-17 12:16:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8085 (http) with context path ''
+2026-04-17 12:16:02 [main] INFO  c.s.b.BookingServiceApplication - Started BookingServiceApplication in 23.172 seconds (process running for 24.092)
+2026-04-17 12:16:02 [main] INFO  c.s.b.BookingServiceApplication - Booking Service Application Started Successfully on port 8085
+2026-04-17 12:16:02 [main] INFO  c.s.b.BookingServiceApplication - API Documentation: http://localhost:8085/swagger-ui.html

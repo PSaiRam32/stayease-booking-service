@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -34,33 +33,42 @@ public class BookingServiceImpl implements BookingService{
     private final PaymentClient paymentClient;
     private final NotificationClient notificationClient;
     private final UserClient userClient;
-    private static final String PAYMENT_SUCCESS = "SUCCESS";
 
     @Transactional
     @Override
     public BookingResponse createBooking(BookingRequest request){
         Long userId=getCurrentUserId();
         log.info("Creating booking for user: {} roomId={}", userId, request.getRoomId());
-        RoomDetailsResponse room=getRoomDetails(request.getRoomId());
+        RoomDetailsResponse room=getRoomDetails(request.getRoomId()).getData();
+        log.info("Room object = {}", room);
+        log.info("Status = {}", room.getPropertyStatus());
+        log.info("Capacity = {}", room.getSharingCapacity());
         validateBookingRequest(request, room);
         validateRoomCapacity(request,room);
         Booking booking=createAndSaveBooking(request,userId,room);
         log.info("Booking created with ID: {}", booking.getBookingId());
-        try {
-            UserResponse user=fetchUser(userId);
-            PaymentOrderRequest paymentRequest=buildPaymentRequest(booking, user);
-            PaymentOrderResponse paymentResponse=callPaymentService(paymentRequest);
-            if (!isPaymentResponseValid(paymentResponse)) {
-                log.error("Payment order creation failed for booking: {}", booking.getBookingId());
+            UserResponse user = fetchUser(userId);
+            PaymentOrderRequest paymentRequest = buildPaymentRequest(booking, user);
+            PaymentOrderResponse paymentResponse;
+            try {
+                paymentResponse = callPaymentService(paymentRequest).getData();
+            } catch(BusinessException ex){
+                // I know how to recover only from this case.
+                if(ex.getMessage().contains("already exists")){
+                    log.info("Existing payment order found for booking={}",booking.getBookingId());
+                    paymentResponse = paymentClient.getPaymentByBookingId(booking.getBookingId()).getData();
+                }
+                // I don't know how to recover from any other BusinessException.
+                // So I pass it to the GlobalExceptionHandler.
+                else{
+                    throw ex;
+                }
+            }
+            if(!isPaymentResponseValid(paymentResponse)){
                 throw new PaymentFailedException("Payment order creation failed");
             }
-            log.info("Payment order created. id={}, razorpayId={}", paymentResponse.getPaymentId(), paymentResponse.getRazorpayOrderId());
+            log.info("Payment order created successfully. paymentId={}, razorpayOrderId={}",paymentResponse.getPaymentId(), paymentResponse.getRazorpayOrderId());
             return mapToBookingResponse(booking);
-        } catch (Exception ex) {
-            log.error("Error during payment order creation for booking: {}", booking.getBookingId(), ex);
-            handlePaymentFailure(booking);
-            throw new BusinessException("Booking failed due to payment service error");
-        }
     }
 
     @Override
@@ -94,27 +102,6 @@ public class BookingServiceImpl implements BookingService{
 
     @Transactional
     @Override
-    public void confirmBooking(Long bookingId){
-        Booking booking=getActiveBooking(bookingId);
-        if (booking.getStatus() != BookingStatus.PENDING){
-            log.warn("Booking already processed: {}", bookingId);
-            return; // idempotent
-        }
-        booking.setStatus(BookingStatus.CONFIRMED);
-        bookingRepository.save(booking);
-        log.info("Booking CONFIRMED: {}", bookingId);
-        try {
-            UserResponse user=fetchUser(booking.getUserId());
-//            UserResponseDTO user = userClient.getUser(booking.getUserId());
-            String message=buildConfirmMessage(user, booking);
-            sendNotification(booking, user, BookingStatus.CONFIRMED, message);
-        } catch (Exception ex) {
-            log.error("Post-confirm external call failed bookingId={}", bookingId, ex);
-        }
-    }
-
-    @Transactional
-    @Override
     public void checkInBooking(Long bookingId){
         Booking booking=getActiveBooking(bookingId);
         validateOwnership(booking);
@@ -126,6 +113,7 @@ public class BookingServiceImpl implements BookingService{
         }
         booking.setStatus(BookingStatus.CHECKED_IN);
         bookingRepository.save(booking);
+        notifyBooking(booking,BookingStatus.CHECKED_IN,"CHECK_IN",null);
         log.info("Booking checked in successfully. bookingId={}", bookingId);
     }
 
@@ -139,6 +127,7 @@ public class BookingServiceImpl implements BookingService{
         }
         booking.setStatus(BookingStatus.CHECKED_OUT);
         bookingRepository.save(booking);
+        notifyBooking(booking,BookingStatus.CHECKED_OUT,"CHECK_OUT",null);
         log.info("Booking checked out successfully. bookingId={}", bookingId);
     }
 
@@ -151,6 +140,7 @@ public class BookingServiceImpl implements BookingService{
         }
         booking.setStatus(BookingStatus.COMPLETED);
         bookingRepository.save(booking);
+        notifyBooking(booking,BookingStatus.COMPLETED,"COMPLETED",null);
         log.info("Booking completed successfully. bookingId={}", bookingId);
     }
 
@@ -164,12 +154,11 @@ public class BookingServiceImpl implements BookingService{
         booking.setCancellationReason(request.getCancellationReason());
         booking.setCancelledAt(LocalDateTime.now());
         bookingRepository.save(booking);
-        RefundResponse refund = refundBooking(booking.getBookingId());
+        RefundResponse refund = refundBooking(booking.getBookingId()).getData();
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
-        notifyBookingCancelled(booking, refund);
+        notifyBooking(booking,BookingStatus.CANCELLED,"CANCELLED",refund);
         log.info("Booking cancelled successfully. bookingId={}", bookingId);
-
     }
 
     @Override
@@ -213,7 +202,7 @@ public class BookingServiceImpl implements BookingService{
                 .contains(booking.getStatus())){
             throw new BusinessException("This booking cannot be modified.");
         }
-        RoomDetailsResponse room=getRoomDetails(booking.getRoomId());
+        RoomDetailsResponse room=getRoomDetails(booking.getRoomId()).getData();
         validateReschedule(booking,request,room);
         long days=ChronoUnit.DAYS.between(request.getCheckInDate(),request.getExpectedVacateDate());
         booking.setCheckInDate(request.getCheckInDate());
@@ -221,7 +210,23 @@ public class BookingServiceImpl implements BookingService{
         booking.setNumberOfGuests(request.getNumberOfGuests());
         booking.setBookingAmount(days * room.getPrice());
         bookingRepository.save(booking);
+        notifyBooking(booking,BookingStatus.CONFIRMED,"RESCHEDULED",null);
         log.info("Booking rescheduled successfully. bookingId={}", bookingId);
+    }
+
+    @Transactional
+    @Override
+    public void confirmBooking(Long bookingId){
+        Booking booking=getActiveBooking(bookingId);
+        if (booking.getStatus() != BookingStatus.PENDING){
+            log.warn("Booking already processed: {}", bookingId);
+            return; // idempotent
+        }
+        booking.setStatus(BookingStatus.CONFIRMED);
+        bookingRepository.save(booking);
+        log.info("Booking CONFIRMED: {}", bookingId);
+        notifyBooking(booking,BookingStatus.CONFIRMED,"CONFIRMED",null);
+        log.info("Booking confirmed successfully. bookingId={}", bookingId);
     }
 
 
@@ -230,48 +235,41 @@ public class BookingServiceImpl implements BookingService{
         log.info("Initiating failure handling for booking: {}", bookingId);
         Booking booking=getActiveBooking(bookingId);
         if (booking.getStatus() != BookingStatus.PENDING) {
-            log.warn("Skipping failBooking - already processed. bookingId={}, status={}",
-                    bookingId, booking.getStatus());
+            log.warn("Skipping failBooking - already processed. bookingId={}, status={}", bookingId, booking.getStatus());
             return;
         }
         booking.setStatus(BookingStatus.FAILED);
         bookingRepository.save(booking);
         log.info("Booking marked as FAILED. bookingId={}", bookingId);
 //        releaseRoom(booking);
-        try {
-            UserResponse user=fetchUser(booking.getUserId());
-//            UserResponseDTO user = userClient.getUser(booking.getUserId());
-            String message=buildFailureMessage(user, booking);
-            sendNotification(booking, user, BookingStatus.FAILED, message);
-        } catch (Exception ex) {
-            log.error("Notification failed for bookingId={}", bookingId, ex);
-        }
+        notifyBooking(booking,BookingStatus.FAILED,"FAILED",null);
+        log.info("Booking Failed. bookingId={}", bookingId);
     }
 
     //Feign Helper
 
-    @Retry(name="paymentRetry")
+//    @Retry(name="paymentRetry")
     @CircuitBreaker(name="paymentCB",fallbackMethod="paymentFallback")
-    public PaymentOrderResponse callPaymentService(PaymentOrderRequest request) {
+    public ApiResponse<PaymentOrderResponse> callPaymentService(PaymentOrderRequest request) {
         log.info("Calling Payment Service (Feign) for booking: {}", request.getBookingId());
         return paymentClient.createPaymentOrder(request);
     }
 
-    public PaymentOrderResponse paymentFallback(PaymentOrderRequest request,Throwable ex){
+    public ApiResponse<PaymentOrderResponse> paymentFallback(PaymentOrderRequest request,Throwable ex){
         log.error("Payment service FAILED (Fallback triggered) for booking: {}",request.getBookingId(), ex);
         throw new BusinessException("Payment service is currently unavailable.");
     }
 
-    @Retry(name="paymentRetry")
+//    @Retry(name="paymentRetry")
     @CircuitBreaker(name="paymentCB",fallbackMethod="refundFallback")
-    private RefundResponse refundBooking(Long bookingId){
+    private ApiResponse<RefundResponse> refundBooking(Long bookingId){
         log.info("Calling Payment Service to refund booking {}", bookingId);
         return paymentClient.refundBooking(bookingId);
     }
 
-    private RefundResponse refundFallback(Long bookingId,Throwable ex){
+    private ApiResponse<RefundResponse> refundFallback(Long bookingId,Throwable ex){
         log.error("Refund service unavailable for booking={}", bookingId, ex);
-        throw new BusinessException("User service is currently unavailable.");
+        throw new BusinessException("Payment service is currently unavailable.");
     }
 
     @Retry(name="userRetry")
@@ -281,19 +279,19 @@ public class BookingServiceImpl implements BookingService{
         return userClient.getUser(userId);
     }
 
-    private UserResponse userFallback(String userId,Throwable ex){
+    private UserResponse userFallback(Long userId,Throwable ex){
         log.error("User service FAILED. Fallback triggered for userId={}", userId,ex);
-        throw new BusinessException("Refund service is currently unavailable.");
+        throw new BusinessException("User service is currently unavailable.");
     }
 
     @Retry(name = "propertyRetry")
     @CircuitBreaker(name = "propertyCB", fallbackMethod = "roomDetailsFallback")
-    private RoomDetailsResponse getRoomDetails(Long roomId) {
+    private ApiResponse<RoomDetailsResponse> getRoomDetails(Long roomId) {
         log.info("Fetching room details for roomId={}", roomId);
         return propertyClient.getRoomDetails(roomId);
     }
 
-    private RoomDetailsResponse roomDetailsFallback(Long roomId,Throwable ex){
+    private ApiResponse<RoomDetailsResponse> roomDetailsFallback(Long roomId,Throwable ex){
         log.error("Property service unavailable for roomId={}", roomId, ex);
         throw new ResourceNotFoundException("Property service is currently unavailable.");
     }
@@ -329,7 +327,7 @@ public class BookingServiceImpl implements BookingService{
         if (!request.getExpectedVacateDate().isAfter(request.getCheckInDate())){
             throw new BusinessException("Check-out date must be after check-in date.");
         }
-        if (!"ACTIVE".equalsIgnoreCase(room.getPropertyStatus())){
+        if (room.getPropertyStatus() != PropertyStatus.ACTIVE) {
             throw new BusinessException("Property is not available for booking.");
         }
         if (request.getNumberOfGuests() > room.getSharingCapacity()){
@@ -387,7 +385,6 @@ public class BookingServiceImpl implements BookingService{
                         .numberOfGuests(request.getNumberOfGuests())
                         .build();
         validateBookingRequest(bookingRequest, room);
-
         if (booking.getCheckInDate().equals(request.getCheckInDate()) &&
                 booking.getExpectedVacateDate().equals(request.getExpectedVacateDate()) &&
                 booking.getNumberOfGuests().equals(request.getNumberOfGuests())){
@@ -431,7 +428,6 @@ public class BookingServiceImpl implements BookingService{
                 .bookingAmount(bookingAmount)
                 .numberOfGuests(request.getNumberOfGuests())
                 .status(BookingStatus.PENDING)
-                .propertyId(request.getPropertyId())
                 .build();
         return bookingRepository.save(booking);
     }
@@ -447,94 +443,278 @@ public class BookingServiceImpl implements BookingService{
         return req;
     }
 
-    private void handlePaymentFailure(Booking booking){
-        booking.setStatus(BookingStatus.FAILED);
-        bookingRepository.save(booking);
-    }
+//    private void handlePaymentFailure(Booking booking){
+//        booking.setStatus(BookingStatus.FAILED);
+//        bookingRepository.save(booking);
+//    }
 
     //Notification Helpers
-    private void sendNotification(Booking booking,UserResponse user,BookingStatus status,String message){
-        if (user.getEmail()==null){
-            log.warn("Skipping notification: Email not available for bookingId={}", booking.getBookingId());
+//    private void sendNotification(Booking booking,UserResponse user,BookingStatus status,String message){
+//        if (user.getEmail()==null){
+//            log.warn("Skipping notification: Email not available for bookingId={}", booking.getBookingId());
+//            return;
+//        }
+//        try{
+//            NotificationRequest notification=new NotificationRequest();
+//            notification.setBookingId(booking.getBookingId());
+//            notification.setUserId(user.getUserid());
+//            notification.setType("EMAIL");
+//            notification.setStatus(status.name());
+//            notification.setMessage(message);
+//            notification.setEmail(user.getEmail());
+//            notification.setPhoneNumber(user.getPhone());
+//            notificationClient.sendNotification(notification);
+//            log.info("Notification sent successfully. bookingId={}, status={}", booking.getBookingId(), status);
+//        }
+//        catch(Exception ex){
+//            log.error("Notification failed. bookingId={}, status={}", booking.getBookingId(), status, ex);
+//        }
+//    }
+
+    private void sendNotification(NotificationRequest notification){
+        if(notification==null){
+            return;
+        }
+        if(notification.getEmail()==null||notification.getEmail().isBlank()){
+            log.warn("Skipping notification because email is missing.");
             return;
         }
         try{
-            NotificationRequest notification=new NotificationRequest();
-            notification.setBookingId(booking.getBookingId());
-            notification.setUserId(user.getUserid());
-            notification.setType("EMAIL");
-            notification.setStatus(status.name());
-            notification.setMessage(message);
-            notification.setEmail(user.getEmail());
-            notification.setPhoneNumber(user.getPhone());
             notificationClient.sendNotification(notification);
-            log.info("Notification sent successfully. bookingId={}, status={}", booking.getBookingId(), status);
+            log.info("Notification sent successfully. bookingId={}",notification.getBookingId());
         }
         catch(Exception ex){
-            log.error("Notification failed. bookingId={}, status={}", booking.getBookingId(), status, ex);
+            log.error("Notification failed. bookingId={}",notification.getBookingId(),ex);
         }
+
+    }
+
+    private void notifyBooking(Booking booking,BookingStatus status,String messageType, RefundResponse refund){
+        try {
+            UserResponse user=fetchUser(booking.getUserId());
+            String message;
+            switch(messageType){
+                case "CHECK_IN":
+                    message=buildCheckInMessage(user,booking);
+                    break;
+                case "CHECK_OUT":
+                    message=buildCheckOutMessage(user,booking);
+                    break;
+                case "COMPLETED":
+                    message=buildCompletedMessage(user,booking);
+                    break;
+                case "RESCHEDULED":
+                    message=buildRescheduleMessage(user,booking);
+                    break;
+                case "CONFIRMED":
+                    message=buildConfirmMessage(user,booking);
+                    break;
+                case "FAILED":
+                    message=buildFailureMessage(user,booking);
+                    break;
+                case "CANCELLED":
+                    message=buildCancelMessage(user,booking,refund);
+                    break;
+                default:
+                    log.warn("Unsupported notification type: {}",messageType);
+                    return;
+            }
+            sendNotification(buildNotification(booking,user,status,message));
+        }
+        catch (Exception ex){
+            log.error("{} notification failed. bookingId={}",messageType,booking.getBookingId(),ex);
+        }
+    }
+
+    private NotificationRequest buildNotification(Booking booking,UserResponse user,BookingStatus status,String message){
+        NotificationRequest notification=new NotificationRequest();
+        notification.setBookingId(booking.getBookingId());
+        notification.setUserId(user.getUserid());
+        notification.setType("EMAIL");
+        notification.setStatus(status.name());
+        notification.setMessage(message);
+        notification.setEmail(user.getEmail());
+        notification.setPhoneNumber(user.getPhone());
+        return notification;
     }
 
     private String buildConfirmMessage(UserResponse user,Booking booking){
         return String.format(
-                "Dear %s,\n\n" +
-                        "We are pleased to inform you that your booking has been successfully confirmed.\n\n" +
-                        "Booking Details:\n" +
-                        "Booking ID   : %d\n" +
-                        "Room ID      : %d\n" +
-                        "Total Amount : ₹%.2f\n\n" +
-                        "We look forward to hosting you.\n\n" +
-                        "Best Regards,\nStayEase Team",
-                user.getName(),booking.getBookingId(),booking.getRoomId(),booking.getBookingAmount());
+                """
+                Dear %s,
+                
+                Great news!
+    
+                Your booking has been confirmed successfully.
+    
+                Booking Details
+                ----------------------------------
+                Booking ID      : %d
+                Room ID         : %d
+                Check-in Date   : %s
+                Check-out Date  : %s
+                Guests          : %d
+                Booking Amount  : ₹%.2f
+    
+                We look forward to welcoming you.
+    
+                Thank you for choosing StayEase.
+    
+                Best Regards,
+                StayEase Team
+                """,
+                user.getName(),booking.getBookingId(),booking.getRoomId(),booking.getCheckInDate(),
+                booking.getExpectedVacateDate(),booking.getNumberOfGuests(),booking.getBookingAmount());
     }
 
-    private void notifyBookingCancelled(Booking booking,RefundResponse refund){
-        try {
-            UserResponse user=fetchUser(booking.getUserId());
-            String message=buildCancelMessage(user, booking, refund);
-            sendNotification(booking,user,BookingStatus.CANCELLED,message);
-        }
-        catch(Exception ex){
-            log.error("Notification failed. bookingId={}",booking.getBookingId(),ex);
-        }
-    }
 
     private String buildCancelMessage(UserResponse user,Booking booking,RefundResponse refund){
         return String.format(
                 """
                 Dear %s,
+    
                 Your booking has been cancelled successfully.
+    
                 Booking Details
-                --------------------------
-                Booking ID      : %d
-                Room ID         : %d
-   
+                ----------------------------------
+                Booking ID        : %d
+                Room ID           : %d
+                Cancellation Date : %s
+    
                 Refund Details
-                --------------------------
-                Refund Amount   : %s %.2f
-                Refund Status   : %s
+                ----------------------------------
+                Refund Amount     : %s %.2f
+                Refund Status     : %s
+    
+                The refund will be processed according to your payment provider's timeline.
     
                 Thank you for choosing StayEase.
     
                 Regards,
                 StayEase Team
                 """,
-                user.getName(),booking.getBookingId(),booking.getRoomId(),
-                refund.getCurrency(),refund.getAmount(),refund.getStatus());
+                user.getName(),booking.getBookingId(),booking.getRoomId(),booking.getCancelledAt(),
+                refund.getCurrency(),refund.getAmount(),refund.getStatus()
+        );
     }
 
-    private String buildFailureMessage(UserResponse user, Booking booking){
+    private String buildRescheduleMessage(UserResponse user,Booking booking){
         return String.format(
-                "Dear %s,\n\n" +
-                        "We regret to inform you that your booking could not be completed due to a payment failure.\n\n" +
-                        "Booking Details:\n" +
-                        "Booking ID : %d\n" +
-                        "Room ID    : %d\n\n" +
-                        "Please try again with a different payment method or contact support if the issue persists.\n\n" +
-                        "We apologize for the inconvenience.\n\n" +
-                        "Best Regards,\n" +
-                        "StayEase Team",
-                user.getName(),booking.getBookingId(),booking.getRoomId());
+                """
+                Dear %s,
+    
+                Your booking has been successfully rescheduled.
+    
+                Updated Booking Details
+                ----------------------------------
+                Booking ID      : %d
+                Room ID         : %d
+                Check-in Date   : %s
+                Check-out Date  : %s
+                Guests          : %d
+                Total Amount    : ₹%.2f
+    
+                Please use these updated booking details during check-in.
+    
+                Thank you for choosing StayEase.
+    
+                Best Regards,
+                StayEase Team
+                """,
+                user.getName(),booking.getBookingId(),booking.getRoomId(),booking.getCheckInDate(),
+                booking.getExpectedVacateDate(),booking.getNumberOfGuests(),booking.getBookingAmount()
+        );
+    }
+
+    private String buildFailureMessage(UserResponse user,Booking booking){
+        return String.format(
+                """
+                Dear %s,
+    
+                Unfortunately, we couldn't complete your booking because the payment was unsuccessful.
+    
+                Booking Details
+                ----------------------------------
+                Booking ID      : %d
+                Room ID         : %d
+                Booking Amount  : ₹%.2f
+    
+                No payment has been confirmed for this booking.
+    
+                Please retry your payment to continue with your reservation.
+    
+                If you continue experiencing issues, please contact our support team.
+    
+                Regards,
+                StayEase Team
+                """,
+                user.getName(),booking.getBookingId(),booking.getRoomId(),booking.getBookingAmount()
+        );
+    }
+
+    private String buildCheckInMessage(UserResponse user,Booking booking){
+        return String.format(
+                """
+                Dear %s,
+    
+                Welcome to StayEase!
+    
+                Your check-in has been completed successfully.
+    
+                Booking Details
+                ----------------------------------
+                Booking ID : %d
+                Room ID    : %d
+    
+                We hope you have a comfortable and enjoyable stay.
+    
+                Best Regards,
+                StayEase Team
+                """,
+                user.getName(),booking.getBookingId(),booking.getRoomId()
+        );
+    }
+
+    private String buildCheckOutMessage(UserResponse user,Booking booking){
+        return String.format(
+                """
+                Dear %s,
+    
+                Your check-out has been completed successfully.
+    
+                Thank you for staying with StayEase.
+    
+                We hope to welcome you again soon.
+    
+                Booking ID : %d
+    
+                Regards,
+                StayEase Team
+                """,
+                user.getName(),booking.getBookingId()
+        );
+    }
+
+    private String buildCompletedMessage(UserResponse user,Booking booking){
+        return String.format(
+                """
+                Dear %s,
+    
+                Your stay has been completed successfully.
+    
+                Thank you for choosing StayEase.
+    
+                We sincerely hope you enjoyed your experience.
+    
+                Booking ID : %d
+    
+                We look forward to serving you again.
+    
+                Best Regards,
+                StayEase Team
+                """,
+                user.getName(),booking.getBookingId()
+        );
     }
 
     //Rep Helpers
@@ -556,9 +736,7 @@ public class BookingServiceImpl implements BookingService{
     }
 
     private boolean isPaymentResponseValid(PaymentOrderResponse response){
-        return response != null && response.getStatus() != null
-                && PAYMENT_SUCCESS.equalsIgnoreCase(response.getStatus())
-                && response.getRazorpayOrderId() != null;
+        return response != null && response.getPaymentId() != null && response.getRazorpayOrderId() != null;
     }
 
 
