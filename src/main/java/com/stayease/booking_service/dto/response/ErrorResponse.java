@@ -1,4 +1,4 @@
-package com.stayease.booking_service.dto;
+package com.stayease.booking_service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

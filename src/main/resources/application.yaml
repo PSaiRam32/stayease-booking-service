@@ -1,40 +1,33 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: booking-service
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/stayease_booking_db
-    username: root
-    password: 2000030757
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true
-
-server:
-  port: 8085
-
+  profiles:
+    active: local
 
 feign:
   client:
     config:
       default:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: FULL
+        logger-level: FULL
 
+logging:
+  level:
+    root: INFO
+    com.stayease.booking_service: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
+    com.stayease.booking_service.config.PropertyClient: DEBUG
+    com.stayease.booking_service.config.PaymentClient: DEBUG
+    com.stayease.booking_service.config.NotificationClient: DEBUG
+    com.stayease.booking_service.config.UserClient: DEBUG
 
-services:
-  property:
-    url: http://localhost:8084
-  payment:
-    url: http://localhost:8086
-  notification:
-    url: http://localhost:8087
-  user:
-    url: http://localhost:8082
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
 resilience4j:
   retry:
@@ -46,27 +39,217 @@ resilience4j:
           - feign.FeignException
           - java.io.IOException
 
-  circuit breaker:
+  circuitbreaker:
     instances:
       userCB:
         sliding-window-size: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
         permitted-number-of-calls-in-half-open-state: 2
-  feign:
-    client:
-      config:
-        default:
-          connectTimeout: 5000     # default ~1000ms
-          readTimeout: 10000       # default ~2000ms
 
-logging:
-  level:
-    root: INFO
-    com.stayease.booking_service: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.web: INFO
-    feign: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/stayease_booking_db
+    username: root
+    password: 2000030757
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 25000
+
+services:
+  property:
+    url: http://localhost:8084
+  payment:
+    url: http://localhost:8086
+  notification:
+    url: http://localhost:8087
+  user:
+    url: http://localhost:8082
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:mysql://test-db:3306/stayease_booking_db
+    username: test_user
+    password: test_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 3000
+        read-timeout: 5000
+
+services:
+  property:
+    url: http://test-property-service:8084
+  payment:
+    url: http://test-payment-service:8086
+  notification:
+    url: http://test-notification-service:8087
+  user:
+    url: http://test-user-service:8082
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cut
+
+  datasource:
+    url: jdbc:mysql://cut-db:3306/stayease_booking_db
+    username: cut_user
+    password: cut_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 8000
+
+services:
+  property:
+    url: http://cut-property-service:8084
+  payment:
+    url: http://cut-payment-service:8086
+  notification:
+    url: http://cut-notification-service:8087
+  user:
+    url: http://cut-user-service:8082
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ete
+
+  datasource:
+    url: jdbc:mysql://ete-db:3306/stayease_booking_db
+    username: ete_user
+    password: ete_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 10000
+
+services:
+  property:
+    url: http://ete-property-service:8084
+  payment:
+    url: http://ete-payment-service:8086
+  notification:
+    url: http://ete-notification-service:8087
+  user:
+    url: http://ete-user-service:8082
+
+---
+spring:
+  config:
+    activate:
+      on-profile: drt
+
+  datasource:
+    url: jdbc:mysql://drt-db:3306/stayease_booking_db
+    username: drt_user
+    password: drt_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 7000
+        read-timeout: 12000
+
+services:
+  property:
+    url: http://drt-property-service:8084
+  payment:
+    url: http://drt-payment-service:8086
+  notification:
+    url: http://drt-notification-service:8087
+  user:
+    url: http://drt-user-service:8082
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: jdbc:mysql://prod-db:3306/stayease_booking_db
+    username: DBName
+    password: DBPwd
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 1000
+        read-timeout: 3000
+
+services:
+  property:
+    url: http://property-service
+  payment:
+    url: http://payment-service
+  notification:
+    url: http://notification-service
+  user:
+    url: http://user-service

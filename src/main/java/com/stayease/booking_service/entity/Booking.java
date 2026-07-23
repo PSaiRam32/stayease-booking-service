@@ -6,27 +6,23 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "bookings", indexes = {
-        @Index(name = "idx_user_id", columnList = "user_id"),
-        @Index(name = "idx_room_id", columnList = "room_id"),
-        @Index(name = "idx_status", columnList = "status")
-})
+@Table(name = "bookings")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Booking {
-
+public class Booking{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
     private Long bookingId;
     @Column(nullable = false)
-    private String userId;
+    private Long userId;
     @Column(nullable = false)
     private Long propertyId;
     @Column(nullable = false)
@@ -35,12 +31,18 @@ public class Booking {
     @Column(nullable = false)
     private BookingStatus status;
     @Column(nullable = false)
-    private Double totalPrice;
+    private Double bookingAmount;
     @Builder.Default
     @Column(nullable = false)
     private Boolean isActive = true;
     @Column(name = "booking_date")
     private LocalDateTime bookingDate;
+    private LocalDate checkInDate;
+    private LocalDate expectedVacateDate;
+    private Integer numberOfGuests;
+    private Long ownerId;
+    private String cancellationReason;
+    private LocalDateTime cancelledAt;
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

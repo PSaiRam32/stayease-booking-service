@@ -1,10 +1,9 @@
-package com.stayease.booking_service.dto;
+package com.stayease.booking_service.dto.response;
 
 import lombok.Data;
 
 @Data
-public class UserResponseDTO {
-
+public class UserResponse{
     private Long userid;
     private String name;
     private String email;

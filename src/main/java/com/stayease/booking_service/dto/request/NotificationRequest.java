@@ -1,12 +1,9 @@
-package com.stayease.booking_service.dto;
+package com.stayease.booking_service.dto.request;
 
-import com.stayease.booking_service.entity.BookingStatus;
 import lombok.Data;
-import java.util.List;
 
 @Data
-public class NotificationRequestDTO {
-
+public class NotificationRequest{
     private Long bookingId;
     private String email;
     private String phoneNumber;
