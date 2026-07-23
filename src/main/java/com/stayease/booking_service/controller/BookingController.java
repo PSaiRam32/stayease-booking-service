@@ -23,32 +23,35 @@ public class BookingController{
     private final BookingService bookingService;
 
     @PostMapping("/createbooking")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponse<BookingResponse>> createBooking(@Valid @RequestBody BookingRequest request){
             BookingResponse response=bookingService.createBooking(request);
             return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Booking created successfully", response));
     }
 
     @GetMapping("/getbooking/{bookingId}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponse<BookingResponse>> getBooking(@PathVariable Long bookingId){
             BookingResponse response=bookingService.getBooking(bookingId);
             return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Booking fetched successfully", response));
     }
 
     @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponse<List<BookingResponse>>> getBookingsByUserId(@PathVariable Long userId){
             List<BookingResponse> response=bookingService.getBookingsByUserId(userId);
             return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Bookings fetched successfully", response));
     }
 
     @PutMapping("/{bookingId}/check-in")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<Void>> checkIn(@PathVariable Long bookingId){
         bookingService.checkInBooking(bookingId);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "CheckIn Completed successfully.", null));
     }
 
     @PutMapping("/{bookingId}/check-out")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<Void>> checkOut(@PathVariable Long bookingId){
         bookingService.checkOutBooking(bookingId);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Checkout Completed successfully.", null));
@@ -61,24 +64,28 @@ public class BookingController{
     }
 
     @PutMapping("/{bookingId}/cancel")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<Void>> cancelBooking(@PathVariable Long bookingId,@Valid @RequestBody BookingCancellationRequest request){
         bookingService.cancelBooking(bookingId,request);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Booking Cancelled  successfully.", null));
     }
 
     @GetMapping("/history")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<List<BookingResponse>>> getBookingHistory(){
         List<BookingResponse> response=bookingService.getBookingHistory();
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Booking history fetched successfully.", response));
     }
 
     @GetMapping("/upcoming")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<List<BookingResponse>>> getUpcomingBookings(){
         List<BookingResponse> response=bookingService.getUpcomingBookings();
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Upcoming Bookings fetched successfully.", response));
     }
 
     @GetMapping("/completed")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<List<BookingResponse>>> getCompletedBookings(){
         List<BookingResponse> response=bookingService.getCompletedBookings();
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Completed Bookings fetched successfully.", response));
@@ -86,6 +93,7 @@ public class BookingController{
 
 
     @PutMapping("/{bookingId}/reschedule")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<Void>> rescheduleBooking(@PathVariable Long bookingId,@Valid @RequestBody BookingRescheduleRequest request){
         bookingService.rescheduleBooking(bookingId,request);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Booking rescheduled successfully.", null));
