@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -48,10 +49,10 @@ public class BookingServiceImpl implements BookingService{
         Booking booking=createAndSaveBooking(request,userId,room);
         log.info("Booking created with ID: {}", booking.getBookingId());
             UserResponse user = fetchUser(userId);
-            PaymentOrderRequest paymentRequest = buildPaymentRequest(booking, user);
+            PaymentOrderRequest paymentRequest=buildPaymentRequest(booking, user);
             PaymentOrderResponse paymentResponse;
             try {
-                paymentResponse = callPaymentService(paymentRequest).getData();
+                paymentResponse=callPaymentService(paymentRequest).getData();
             } catch(BusinessException ex){
                 // I know how to recover only from this case.
                 if(ex.getMessage().contains("already exists")){
@@ -90,15 +91,6 @@ public class BookingServiceImpl implements BookingService{
         log.debug("Retrieved {} bookings for user ID: {}", bookings.size(), userId);
         return bookings;
     }
-
-//    @Override
-//    @Transactional
-//    public void updateBookingStatus(Long bookingId, BookingStatusUpdate request) {
-//        Booking booking = bookingRepository.findById(bookingId)
-//                .orElseThrow(() -> new BusinessException("Booking not found"));
-//        booking.setStatus(BookingStatus.valueOf(request.getStatus().toUpperCase()));
-//        bookingRepository.save(booking);
-//    }
 
     @Transactional
     @Override
@@ -154,7 +146,7 @@ public class BookingServiceImpl implements BookingService{
         booking.setCancellationReason(request.getCancellationReason());
         booking.setCancelledAt(LocalDateTime.now());
         bookingRepository.save(booking);
-        RefundResponse refund = refundBooking(booking.getBookingId()).getData();
+        RefundResponse refund=refundBooking(booking.getBookingId()).getData();
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
         notifyBooking(booking,BookingStatus.CANCELLED,"CANCELLED",refund);
@@ -204,13 +196,13 @@ public class BookingServiceImpl implements BookingService{
         }
         RoomDetailsResponse room=getRoomDetails(booking.getRoomId()).getData();
         validateReschedule(booking,request,room);
-        long days=ChronoUnit.DAYS.between(request.getCheckInDate(),request.getExpectedVacateDate());
+        long days=ChronoUnit.DAYS.between(request.getCheckInDate(),request.getExpectedVacateDate())+1;
         booking.setCheckInDate(request.getCheckInDate());
         booking.setExpectedVacateDate(request.getExpectedVacateDate());
         booking.setNumberOfGuests(request.getNumberOfGuests());
-        booking.setBookingAmount(days * room.getPrice());
+        booking.setBookingAmount(days * room.getPrice() * request.getNumberOfGuests());
         bookingRepository.save(booking);
-        notifyBooking(booking,BookingStatus.CONFIRMED,"RESCHEDULED",null);
+        notifyBooking(booking,BookingStatus.RESCHEDULED,"RESCHEDULED",null);
         log.info("Booking rescheduled successfully. bookingId={}", bookingId);
     }
 
@@ -231,10 +223,10 @@ public class BookingServiceImpl implements BookingService{
 
 
     @Transactional
-    public void failBooking(Long bookingId) {
+    public void failBooking(Long bookingId){
         log.info("Initiating failure handling for booking: {}", bookingId);
         Booking booking=getActiveBooking(bookingId);
-        if (booking.getStatus() != BookingStatus.PENDING) {
+        if (booking.getStatus() != BookingStatus.PENDING){
             log.warn("Skipping failBooking - already processed. bookingId={}, status={}", bookingId, booking.getStatus());
             return;
         }
@@ -244,6 +236,109 @@ public class BookingServiceImpl implements BookingService{
 //        releaseRoom(booking);
         notifyBooking(booking,BookingStatus.FAILED,"FAILED",null);
         log.info("Booking Failed. bookingId={}", bookingId);
+    }
+
+    @Override
+    public List<OwnerBookingResponse > bookingsByOwnerId(Long OwnerId){
+        List<Booking> bookings=bookingRepository.findByOwnerIdAndIsActiveTrue(OwnerId);
+        return bookings.stream()
+                .map(this::mapToOwnerBookingResponse)
+                .toList();
+    }
+
+    @Override
+    public List<OwnerBookingResponse> getOwnerBookingHistory(Long ownerId){
+        return bookingRepository.findByOwnerIdAndStatusAndIsActiveTrue(ownerId,BookingStatus.COMPLETED)
+                .stream()
+                .map(this::mapToOwnerBookingResponse)
+                .toList();
+    }
+
+    @Override
+    public RevenueSummaryResponse getRevenueSummary(Long ownerId){
+        List<Booking> bookings=bookingRepository.findByOwnerIdAndIsActiveTrue(ownerId);
+        double totalRevenue=bookings.stream()
+                .mapToDouble(Booking::getBookingAmount)
+                .sum();
+
+        double completedRevenue=bookings.stream()
+                .filter(b -> b.getStatus()==BookingStatus.COMPLETED)
+                .mapToDouble(Booking::getBookingAmount)
+                .sum();
+
+        double pendingRevenue=bookings.stream()
+                .filter(b -> b.getStatus()==BookingStatus.PENDING)
+                .mapToDouble(Booking::getBookingAmount)
+                .sum();
+
+        long totalBookings=bookings.size();
+        long completedBookings=bookings.stream()
+                .filter(b -> b.getStatus()==BookingStatus.COMPLETED)
+                .count();
+
+        long pendingBookings=bookings.stream()
+                .filter(b -> b.getStatus()==BookingStatus.PENDING)
+                .count();
+
+        long cancelledBookings=bookings.stream()
+                .filter(b -> b.getStatus()==BookingStatus.CANCELLED)
+                .count();
+
+        double averageBookingValue=totalBookings==0?0:totalRevenue/totalBookings;
+        return RevenueSummaryResponse.builder()
+                .totalRevenue(totalRevenue)
+                .completedRevenue(completedRevenue)
+                .pendingRevenue(pendingRevenue)
+                .totalBookings(totalBookings)
+                .completedBookings(completedBookings)
+                .pendingBookings(pendingBookings)
+                .cancelledBookings(cancelledBookings)
+                .averageBookingValue(averageBookingValue)
+                .build();
+    }
+
+    @Override
+    public OccupiedRoomCountResponse getOccupiedRoomCount(Long ownerId){
+        Long occupiedRooms=bookingRepository.countOccupiedRooms(ownerId);
+        return OccupiedRoomCountResponse.builder()
+                .occupiedRooms(occupiedRooms)
+                .build();
+    }
+
+    @Override
+    public UserBookingDashboardResponse getUserDashboard(Long userId){
+        List<Booking> bookings=bookingRepository.findByUserIdAndIsActiveTrue(userId);
+        LocalDate today=LocalDate.now();
+        long totalBookings=bookings.size();
+        long upcomingBookings=0;
+        long completedBookings=0;
+        long cancelledBookings=0;
+        for (Booking booking : bookings){
+            switch (booking.getStatus()){
+                case COMPLETED -> completedBookings++;
+                case CANCELLED -> cancelledBookings++;
+                case CONFIRMED -> {
+                    if (booking.getCheckInDate() != null&& booking.getCheckInDate().isAfter(today)){
+                        upcomingBookings++;
+                    }
+                }
+                default -> {
+                    // Ignore remaining statuses
+                }
+            }
+        }
+        Optional<Booking> currentBookingOptional=bookingRepository.findCurrentBooking(userId);
+        CurrentBookingResponse currentBooking=currentBookingOptional
+                .map(this::mapToCurrentBookingResponse)
+                .orElse(null);
+        return UserBookingDashboardResponse.builder()
+                .totalBookings(totalBookings)
+                .upcomingBookings(upcomingBookings)
+                .currentBookings(currentBooking!=null?1L:0L)
+                .completedBookings(completedBookings)
+                .cancelledBookings(cancelledBookings)
+                .currentBooking(currentBooking)
+                .build();
     }
 
     //Feign Helper
@@ -296,44 +391,19 @@ public class BookingServiceImpl implements BookingService{
         throw new ResourceNotFoundException("Property service is currently unavailable.");
     }
 
-//    @Retry(name = "propertyRetry")
-//    @CircuitBreaker(name = "propertyCB", fallbackMethod = "propertyReserveFallback")
-//    private void reserveRoomSafe(Long roomId) {
-//        log.info("Reserving room for roomId={}", roomId);
-//        propertyClient.reserveRoom(roomId);
-//    }
-
-//    private void propertyReserveFallback(Long roomId, Throwable ex) {
-//        log.error("Property service FAILED (reserve). roomId={}", roomId, ex);
-//        throw new BusinessException("Unable to reserve room at this time");
-//    }
-
-//    @Retry(name = "propertyRetry")
-//    @CircuitBreaker(name = "propertyCB", fallbackMethod = "propertyReleaseFallback")
-//    private void releaseRoomSafe(Long roomId) {
-//        log.info("Releasing room for roomId={}", roomId);
-//        propertyClient.releaseRoom(roomId);
-//    }
-
-//    private void propertyReleaseFallback(Long roomId, Throwable ex) {
-//        log.error("CRITICAL: Failed to release room. roomId={}", roomId, ex);
-//        // Do NOT throw → avoid breaking flow
-//    }
-
-
     // Validation Helpers
 
     private void validateBookingRequest(BookingRequest request,RoomDetailsResponse room){
-        if (!request.getExpectedVacateDate().isAfter(request.getCheckInDate())){
+        if(!request.getExpectedVacateDate().isAfter(request.getCheckInDate())){
             throw new BusinessException("Check-out date must be after check-in date.");
         }
-        if (room.getPropertyStatus() != PropertyStatus.ACTIVE) {
+        if(room.getPropertyStatus() != PropertyStatus.ACTIVE){
             throw new BusinessException("Property is not available for booking.");
         }
-        if (request.getNumberOfGuests() > room.getSharingCapacity()){
+        if(request.getNumberOfGuests() > room.getSharingCapacity()){
             throw new BusinessException("Requested guests exceed room capacity.");
         }
-        if (request.getCheckInDate().isBefore(LocalDate.now())){
+        if(request.getCheckInDate().isBefore(LocalDate.now())){
             throw new BusinessException("Check-in date cannot be in the past.");
         }
     }
@@ -416,8 +486,8 @@ public class BookingServiceImpl implements BookingService{
     //Update Helpers
 
     private Booking createAndSaveBooking(BookingRequest request,Long userId,RoomDetailsResponse room){
-        long numberOfDays=ChronoUnit.DAYS.between(request.getCheckInDate(),request.getExpectedVacateDate());
-        double bookingAmount=numberOfDays * room.getPrice();
+        long numberOfDays=ChronoUnit.DAYS.between(request.getCheckInDate(),request.getExpectedVacateDate())+1;
+        double bookingAmount=numberOfDays * room.getPrice() *request.getNumberOfGuests();
         Booking booking = Booking.builder()
                 .userId(userId)
                 .ownerId(room.getOwnerId())
@@ -443,33 +513,6 @@ public class BookingServiceImpl implements BookingService{
         return req;
     }
 
-//    private void handlePaymentFailure(Booking booking){
-//        booking.setStatus(BookingStatus.FAILED);
-//        bookingRepository.save(booking);
-//    }
-
-    //Notification Helpers
-//    private void sendNotification(Booking booking,UserResponse user,BookingStatus status,String message){
-//        if (user.getEmail()==null){
-//            log.warn("Skipping notification: Email not available for bookingId={}", booking.getBookingId());
-//            return;
-//        }
-//        try{
-//            NotificationRequest notification=new NotificationRequest();
-//            notification.setBookingId(booking.getBookingId());
-//            notification.setUserId(user.getUserid());
-//            notification.setType("EMAIL");
-//            notification.setStatus(status.name());
-//            notification.setMessage(message);
-//            notification.setEmail(user.getEmail());
-//            notification.setPhoneNumber(user.getPhone());
-//            notificationClient.sendNotification(notification);
-//            log.info("Notification sent successfully. bookingId={}, status={}", booking.getBookingId(), status);
-//        }
-//        catch(Exception ex){
-//            log.error("Notification failed. bookingId={}, status={}", booking.getBookingId(), status, ex);
-//        }
-//    }
 
     private void sendNotification(NotificationRequest notification){
         if(notification==null){
@@ -756,91 +799,30 @@ public class BookingServiceImpl implements BookingService{
                 .build();
     }
 
+    private OwnerBookingResponse mapToOwnerBookingResponse(Booking booking){
+        return OwnerBookingResponse.builder()
+                .bookingId(booking.getBookingId())
+                .propertyId(booking.getPropertyId())
+                .roomId(booking.getRoomId())
+                .userId(booking.getUserId())
+                .bookingStatus(booking.getStatus())
+                .bookingAmount(booking.getBookingAmount())
+                .numberOfGuests(booking.getNumberOfGuests())
+                .checkInDate(booking.getCheckInDate())
+                .expectedVacateDate(booking.getExpectedVacateDate())
+                .bookingDate(booking.getBookingDate())
+                .build();
+    }
 
-//    private void reserveRoomOrThrow(Long roomId) {
-//        try {
-//            ApiResponse<Boolean> available = checkAvailability(roomId);
-//            if (!available.getData()) {
-//                throw new RoomUnavailableException("Room not available");
-//            }
-//            reserveRoomSafe(roomId);
-//        } catch (RoomUnavailableException ex) {
-//            throw ex;
-//        } catch (Exception ex) {
-//            log.error("Property service failed", ex);
-//            throw new BusinessException("Unable to process booking at this time");
-//        }
-//   }
-
-//    @Override
-//    public List<BookingResponseDTO> getUserBookings() {
-//        String userId = getLoggedInUser();
-//        log.info("Fetching all bookings for user: {}", userId);
-//        List<BookingResponseDTO> bookings = bookingRepository.findByUserIdAndIsActiveTrue(userId)
-//                .stream()
-//                .map(this::mapToDTO)
-//                .toList();
-//        log.debug("Retrieved {} bookings for user: {}", bookings.size(), userId);
-//        return bookings;
-//    }
-
-//    private void releaseRoom(Booking booking) {
-//        try {
-//            releaseRoomSafe(booking.getRoomId());
-//            log.info("Room released successfully for bookingId={}", booking.getBookingId());
-//        } catch (Exception ex) {
-//            log.error("CRITICAL: Failed to release room. bookingId={}, roomId={}",
-//                    booking.getBookingId(), booking.getRoomId(), ex);
-//        }
-//    }
-
-//    @Transactional
-//    public BookingResponse cancelBooking(Long bookingId) {
-//        log.info("Cancelling booking with ID: {}", bookingId);
-//        Booking booking = getActiveBooking(bookingId);
-//        validateOwnership(booking);
-//        if (booking.getStatus() == BookingStatus.CANCELLED) {
-//            throw new BusinessException("Booking already cancelled");
-//        }
-//        if (booking.getStatus() != BookingStatus.CONFIRMED) {
-//            throw new BusinessException("Only confirmed bookings can be cancelled");
-//        }
-//        releaseRoom(booking);
-//        booking.setStatus(BookingStatus.CANCELLED);
-//        booking = bookingRepository.save(booking);
-//        log.info("Booking cancelled successfully: {}", bookingId);
-//        try {
-//            UserResponseDTO user = fetchUser(booking.getUserId());
-//            String message = buildCancelMessage(user, booking);
-//            sendNotification(booking, user, BookingStatus.CANCELLED, message);
-//        } catch (Exception ex) {
-//            log.error("Notification failed for bookingId={}", bookingId, ex);
-//        }
-//        return mapToBookingResponse(booking);
-//    }
-
-
-//    private String buildCancelMessage(UserResponseDTO user, Booking booking) {
-//        return String.format(
-//                "Dear %s,\n\n" +
-//                        "Your booking has been successfully cancelled.\n\n" +
-//                        "Booking ID: %d\nRoom ID: %d\n\n" +
-//                        "Refund (if applicable) will be processed shortly.\n\n" +
-//                        "Regards,\nStayEase Team",
-//                user.getName(),
-//                booking.getBookingId(),
-//                booking.getRoomId()
-//        );
-//    }
-
-//    private BookingResponse mapToDTO(Booking booking) {
-//        return BookingResponse.builder()
-//                .bookingId(booking.getBookingId())
-//                .userId(booking.getUserId())
-//                .propertyId(booking.getPropertyId())
-//                .roomId(booking.getRoomId())
-//                .bookingStatus(booking.getStatus())
-//                .bookingAmount(booking.getBookingAmount())
-//                .build();
-//    }
+    private CurrentBookingResponse mapToCurrentBookingResponse(Booking booking) {
+        return CurrentBookingResponse.builder()
+                .bookingId(booking.getBookingId())
+                .propertyId(booking.getPropertyId())
+                .roomId(booking.getRoomId())
+                .checkInDate(booking.getCheckInDate())
+                .checkOutDate(booking.getExpectedVacateDate())
+                .status(booking.getStatus())
+                .bookingAmount(booking.getBookingAmount())
+                .build();
+    }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingRequest {
+public class BookingRequest{
     @NotNull(message = "User ID is required")
     private Long userId;
     @NotNull(message = "Property ID is required")
