@@ -3,7 +3,8 @@ package com.stayease.booking_service.service;
 import com.stayease.booking_service.dto.request.BookingCancellationRequest;
 import com.stayease.booking_service.dto.request.BookingRequest;
 import com.stayease.booking_service.dto.request.BookingRescheduleRequest;
-import com.stayease.booking_service.dto.response.BookingResponse;
+import com.stayease.booking_service.dto.response.*;
+
 import java.util.List;
 
 public interface BookingService{
@@ -20,7 +21,9 @@ public interface BookingService{
     void rescheduleBooking(Long bookingId, BookingRescheduleRequest request);
     void confirmBooking(Long bookingId);
     void failBooking(Long bookingId);
-    //    BookingResponse cancelBooking(Long bookingId);
-    //    List<BookingResponseDTO> getUserBookings();
-    //    void updateBookingStatus(Long bookingId, BookingStatusUpdate request);
+    List<OwnerBookingResponse > bookingsByOwnerId(Long ownerId);
+    List<OwnerBookingResponse> getOwnerBookingHistory(Long ownerId);
+    RevenueSummaryResponse getRevenueSummary(Long ownerId);
+    OccupiedRoomCountResponse getOccupiedRoomCount(Long ownerId);
+    UserBookingDashboardResponse getUserDashboard(Long userId);
 }

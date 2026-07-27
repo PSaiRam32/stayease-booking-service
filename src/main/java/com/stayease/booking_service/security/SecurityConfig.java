@@ -16,7 +16,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -39,24 +39,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
-//
-//
-//@Configuration
-//@EnableWebSecurity
-//@Slf4j
-//public class SecurityConfig {
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        log.info("Configuring SecurityFilterChain - TESTING MODE (All endpoints open)");
-//
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .headers(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .anyRequest().permitAll()  // Allow all requests for testing
-//                );
-//        return http.build();
-//    }
-//}

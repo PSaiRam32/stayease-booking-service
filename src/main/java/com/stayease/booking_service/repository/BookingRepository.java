@@ -14,7 +14,7 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Optional<Booking> findByBookingIdAndIsActiveTrue(Long bookingId);
     List<Booking> findByUserIdAndIsActiveTrue(Long userId);
-//    Optional<Booking> findByUserIdAndRoomIdAndStatusIn(Long userId,Long roomId,List<BookingStatus> statuses);
+    List<Booking> findByOwnerIdAndIsActiveTrue(Long ownerId);
     @Query("""
         SELECT COALESCE(SUM(b.numberOfGuests),0) FROM Booking b WHERE b.roomId = :roomId
         AND b.status IN (BookingStatus.PENDING,BookingStatus.CONFIRMED)
@@ -36,4 +36,23 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             AND b.expectedVacateDate > :checkInDate
             """)
     Integer getOccupiedBedsForDateRangeExcludingBooking(Long roomId,Long bookingId,LocalDate checkInDate,LocalDate expectedVacateDate);
+    List<Booking> findByOwnerIdAndStatusAndIsActiveTrue(Long ownerId,BookingStatus status);
+    @Query("""
+        SELECT COUNT(DISTINCT b.roomId)
+        FROM Booking b
+        WHERE b.ownerId = :ownerId
+        AND b.status = 'CHECKED_IN'
+        AND b.isActive = true
+        """)
+    Long countOccupiedRooms(Long ownerId);
+    @Query("""
+       SELECT b
+       FROM Booking b
+       WHERE b.userId = :userId
+       AND b.isActive = true
+       AND b.status IN ('CONFIRMED','CHECKED_IN')
+       AND CURRENT_DATE BETWEEN b.checkInDate
+       AND b.expectedVacateDate
+       """)
+    Optional<Booking> findCurrentBooking(@Param("userId") Long userId);
 }

@@ -13,15 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 )
 public interface PropertyClient{
 
-//    @GetMapping("properties/rooms/availability/{roomId}")
-//    ApiResponse<Boolean> checkAvailability(@PathVariable Long roomId);
-
-//    @PutMapping("/properties/rooms/reserverroom/{roomId}")
-//    void reserveRoom(@PathVariable Long roomId);
-
-//    @PutMapping("/properties/rooms/releaseroom/{roomId}")
-//    void releaseRoom(@PathVariable Long roomId);
-
     @GetMapping("/properties/rooms/{roomId}")
     ApiResponse<RoomDetailsResponse> getRoomDetails(@PathVariable Long roomId);
 
