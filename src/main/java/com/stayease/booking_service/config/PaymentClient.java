@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name="payment-service",
-        url="${services.payment.url}",
-        configuration=FeignConfig.class
-)
+@FeignClient(name="payment-service",configuration=FeignConfig.class)
 public interface PaymentClient{
     @PostMapping("/payments/order")
     ApiResponse<PaymentOrderResponse> createPaymentOrder(@RequestBody PaymentOrderRequest request);

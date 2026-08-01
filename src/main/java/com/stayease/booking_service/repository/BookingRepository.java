@@ -55,4 +55,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
        AND b.expectedVacateDate
        """)
     Optional<Booking> findCurrentBooking(@Param("userId") Long userId);
+    boolean existsByUserIdAndRoomIdAndCheckInDateAndExpectedVacateDateAndStatusInAndIsActiveTrue(
+            Long userId,
+            Long roomId,LocalDate checkInDate,LocalDate expectedVacateDate,List<BookingStatus> statuses);
+    boolean existsByUserIdAndRoomIdAndCheckInDateAndExpectedVacateDateAndBookingIdNotAndStatusInAndIsActiveTrue(
+            Long userId,Long roomId,LocalDate checkInDate,
+            LocalDate expectedVacateDate,Long bookingId,List<BookingStatus> statuses);
 }

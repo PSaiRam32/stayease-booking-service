@@ -1,21 +1,19 @@
 package com.stayease.booking_service.service;
 
-import com.stayease.booking_service.config.NotificationClient;
-import com.stayease.booking_service.config.PaymentClient;
-import com.stayease.booking_service.config.PropertyClient;
-import com.stayease.booking_service.config.UserClient;
 import com.stayease.booking_service.dto.request.*;
 import com.stayease.booking_service.dto.response.*;
 import com.stayease.booking_service.entity.*;
 import com.stayease.booking_service.exception.*;
+import com.stayease.booking_service.integration.NotificationServiceGateway;
+import com.stayease.booking_service.integration.PaymentServiceGateway;
+import com.stayease.booking_service.integration.PropertyServiceGateway;
+import com.stayease.booking_service.integration.UserServiceGateway;
 import com.stayease.booking_service.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import io.github.resilience4j.retry.annotation.Retry;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,37 +28,35 @@ import java.util.Optional;
 public class BookingServiceImpl implements BookingService{
 
     private final BookingRepository bookingRepository;
-    private final PropertyClient propertyClient;
-    private final PaymentClient paymentClient;
-    private final NotificationClient notificationClient;
-    private final UserClient userClient;
+    private final NotificationServiceGateway notificationServiceGateway;
+    private final UserServiceGateway userServiceGateway;
+    private final PropertyServiceGateway propertyServiceGateway;
+    private final PaymentServiceGateway paymentServiceGateway;
 
     @Transactional
     @Override
     public BookingResponse createBooking(BookingRequest request){
         Long userId=getCurrentUserId();
         log.info("Creating booking for user: {} roomId={}", userId, request.getRoomId());
-        RoomDetailsResponse room=getRoomDetails(request.getRoomId()).getData();
+        RoomDetailsResponse room=propertyServiceGateway.getRoomDetails(request.getRoomId()).getData();
         log.info("Room object = {}", room);
         log.info("Status = {}", room.getPropertyStatus());
         log.info("Capacity = {}", room.getSharingCapacity());
         validateBookingRequest(request, room);
+        validateDuplicateBooking(userId,request);
         validateRoomCapacity(request,room);
         Booking booking=createAndSaveBooking(request,userId,room);
-        log.info("Booking created with ID: {}", booking.getBookingId());
-            UserResponse user = fetchUser(userId);
-            PaymentOrderRequest paymentRequest=buildPaymentRequest(booking, user);
+        try{
+            UserResponse user=userServiceGateway.getUser(userId);
+            PaymentOrderRequest paymentRequest=buildPaymentRequest(booking,user);
             PaymentOrderResponse paymentResponse;
-            try {
-                paymentResponse=callPaymentService(paymentRequest).getData();
-            } catch(BusinessException ex){
-                // I know how to recover only from this case.
+            try{
+                paymentResponse=paymentServiceGateway.createPaymentOrder(paymentRequest).getData();
+            }
+            catch(BusinessException ex){
                 if(ex.getMessage().contains("already exists")){
-                    log.info("Existing payment order found for booking={}",booking.getBookingId());
-                    paymentResponse = paymentClient.getPaymentByBookingId(booking.getBookingId()).getData();
+                    paymentResponse=paymentServiceGateway.getPaymentByBookingId(booking.getBookingId()).getData();
                 }
-                // I don't know how to recover from any other BusinessException.
-                // So I pass it to the GlobalExceptionHandler.
                 else{
                     throw ex;
                 }
@@ -68,8 +64,15 @@ public class BookingServiceImpl implements BookingService{
             if(!isPaymentResponseValid(paymentResponse)){
                 throw new PaymentFailedException("Payment order creation failed");
             }
-            log.info("Payment order created successfully. paymentId={}, razorpayOrderId={}",paymentResponse.getPaymentId(), paymentResponse.getRazorpayOrderId());
+            log.info("Payment order created successfully.");
             return mapToBookingResponse(booking);
+        }
+        catch(Exception ex){
+            booking.setStatus(BookingStatus.FAILED);
+            bookingRepository.save(booking);
+            log.error("Booking {} failed during payment initialization",booking.getBookingId(),ex);
+            throw ex;
+        }
     }
 
     @Override
@@ -97,6 +100,10 @@ public class BookingServiceImpl implements BookingService{
     public void checkInBooking(Long bookingId){
         Booking booking=getActiveBooking(bookingId);
         validateOwnership(booking);
+        if (booking.getStatus()==BookingStatus.CHECKED_IN){
+            log.info("Booking {} already checked in.", bookingId);
+            return;
+        }
         if(booking.getStatus()!=BookingStatus.CONFIRMED){
             throw new BusinessException("Only confirmed bookings can be checked in.");
         }
@@ -114,6 +121,10 @@ public class BookingServiceImpl implements BookingService{
     public void checkOutBooking(Long bookingId){
         Booking booking=getActiveBooking(bookingId);
         validateOwnership(booking);
+        if(booking.getStatus()==BookingStatus.CHECKED_OUT){
+            log.info("Booking {} already checked out.",bookingId);
+            return;
+        }
         if (booking.getStatus()!=BookingStatus.CHECKED_IN){
             throw new BusinessException("Only checked-in bookings can be checked out.");
         }
@@ -127,10 +138,15 @@ public class BookingServiceImpl implements BookingService{
     @Override
     public void completeBooking(Long bookingId){
         Booking booking=getActiveBooking(bookingId);
-        if (booking.getStatus()!=BookingStatus.CHECKED_OUT){
+        if(booking.getStatus()==BookingStatus.COMPLETED){
+            log.info("Booking {} already completed.", bookingId);
+            return;
+        }
+        if(booking.getStatus()!=BookingStatus.CHECKED_OUT){
             throw new BusinessException("Only checked-out bookings can be completed.");
         }
         booking.setStatus(BookingStatus.COMPLETED);
+        booking.setIsActive(false);
         bookingRepository.save(booking);
         notifyBooking(booking,BookingStatus.COMPLETED,"COMPLETED",null);
         log.info("Booking completed successfully. bookingId={}", bookingId);
@@ -142,12 +158,24 @@ public class BookingServiceImpl implements BookingService{
         Booking booking = getActiveBooking(bookingId);
         validateOwnership(booking);
         validateCancellation(booking);
+        if (booking.getStatus()==BookingStatus.CANCELLED ||
+                booking.getStatus()==BookingStatus.CANCELLATION_IN_PROGRESS){
+            return;
+        }
         booking.setStatus(BookingStatus.CANCELLATION_IN_PROGRESS);
         booking.setCancellationReason(request.getCancellationReason());
         booking.setCancelledAt(LocalDateTime.now());
         bookingRepository.save(booking);
-        RefundResponse refund=refundBooking(booking.getBookingId()).getData();
+        RefundResponse refund=paymentServiceGateway.refundBooking(booking.getBookingId()).getData();
+        if(refund==null){
+            throw new BusinessException("Refund failed.");
+        }
+        if(!"COMPLETED".equalsIgnoreCase(refund.getStatus())
+                && !"PROCESSING".equalsIgnoreCase(refund.getStatus())){
+            throw new BusinessException("Refund could not be initiated.");
+        }
         booking.setStatus(BookingStatus.CANCELLED);
+        booking.setIsActive(false);
         bookingRepository.save(booking);
         notifyBooking(booking,BookingStatus.CANCELLED,"CANCELLED",refund);
         log.info("Booking cancelled successfully. bookingId={}", bookingId);
@@ -194,7 +222,7 @@ public class BookingServiceImpl implements BookingService{
                 .contains(booking.getStatus())){
             throw new BusinessException("This booking cannot be modified.");
         }
-        RoomDetailsResponse room=getRoomDetails(booking.getRoomId()).getData();
+        RoomDetailsResponse room=propertyServiceGateway.getRoomDetails(booking.getRoomId()).getData();
         validateReschedule(booking,request,room);
         long days=ChronoUnit.DAYS.between(request.getCheckInDate(),request.getExpectedVacateDate())+1;
         booking.setCheckInDate(request.getCheckInDate());
@@ -341,56 +369,6 @@ public class BookingServiceImpl implements BookingService{
                 .build();
     }
 
-    //Feign Helper
-
-//    @Retry(name="paymentRetry")
-    @CircuitBreaker(name="paymentCB",fallbackMethod="paymentFallback")
-    public ApiResponse<PaymentOrderResponse> callPaymentService(PaymentOrderRequest request) {
-        log.info("Calling Payment Service (Feign) for booking: {}", request.getBookingId());
-        return paymentClient.createPaymentOrder(request);
-    }
-
-    public ApiResponse<PaymentOrderResponse> paymentFallback(PaymentOrderRequest request,Throwable ex){
-        log.error("Payment service FAILED (Fallback triggered) for booking: {}",request.getBookingId(), ex);
-        throw new BusinessException("Payment service is currently unavailable.");
-    }
-
-//    @Retry(name="paymentRetry")
-    @CircuitBreaker(name="paymentCB",fallbackMethod="refundFallback")
-    private ApiResponse<RefundResponse> refundBooking(Long bookingId){
-        log.info("Calling Payment Service to refund booking {}", bookingId);
-        return paymentClient.refundBooking(bookingId);
-    }
-
-    private ApiResponse<RefundResponse> refundFallback(Long bookingId,Throwable ex){
-        log.error("Refund service unavailable for booking={}", bookingId, ex);
-        throw new BusinessException("Payment service is currently unavailable.");
-    }
-
-    @Retry(name="userRetry")
-    @CircuitBreaker(name="userCB",fallbackMethod="userFallback")
-    private UserResponse fetchUser(Long userId){
-        log.info("Calling User Service for userId={}", userId);
-        return userClient.getUser(userId);
-    }
-
-    private UserResponse userFallback(Long userId,Throwable ex){
-        log.error("User service FAILED. Fallback triggered for userId={}", userId,ex);
-        throw new BusinessException("User service is currently unavailable.");
-    }
-
-    @Retry(name = "propertyRetry")
-    @CircuitBreaker(name = "propertyCB", fallbackMethod = "roomDetailsFallback")
-    private ApiResponse<RoomDetailsResponse> getRoomDetails(Long roomId) {
-        log.info("Fetching room details for roomId={}", roomId);
-        return propertyClient.getRoomDetails(roomId);
-    }
-
-    private ApiResponse<RoomDetailsResponse> roomDetailsFallback(Long roomId,Throwable ex){
-        log.error("Property service unavailable for roomId={}", roomId, ex);
-        throw new ResourceNotFoundException("Property service is currently unavailable.");
-    }
-
     // Validation Helpers
 
     private void validateBookingRequest(BookingRequest request,RoomDetailsResponse room){
@@ -408,6 +386,40 @@ public class BookingServiceImpl implements BookingService{
         }
     }
 
+
+    private void validateDuplicateBooking(Long userId, BookingRequest request){
+        List<BookingStatus> activeStatuses = List.of(
+                BookingStatus.PENDING,BookingStatus.CONFIRMED,BookingStatus.CHECKED_IN,
+                BookingStatus.RESCHEDULED,BookingStatus.CANCELLATION_IN_PROGRESS);
+        if (bookingRepository.existsByUserIdAndRoomIdAndCheckInDateAndExpectedVacateDateAndStatusInAndIsActiveTrue(
+                userId,request.getRoomId(),request.getCheckInDate(),request.getExpectedVacateDate(),activeStatuses)){
+            throw new BusinessException("An active booking already exists for the selected room and dates.");
+        }
+    }
+
+    private void validateDuplicateBookingForReschedule(Booking booking,BookingRescheduleRequest request){
+        List<BookingStatus> activeStatuses = List.of(
+                BookingStatus.PENDING,
+                BookingStatus.CONFIRMED,
+                BookingStatus.CHECKED_IN,
+                BookingStatus.RESCHEDULED,
+                BookingStatus.CANCELLATION_IN_PROGRESS
+        );
+
+        boolean duplicate=bookingRepository
+                        .existsByUserIdAndRoomIdAndCheckInDateAndExpectedVacateDateAndBookingIdNotAndStatusInAndIsActiveTrue(
+                                booking.getUserId(),
+                                booking.getRoomId(),
+                                request.getCheckInDate(),
+                                request.getExpectedVacateDate(),
+                                booking.getBookingId(),
+                                activeStatuses);
+        if (duplicate){
+            throw new BusinessException("You already have another booking for this room and date range.");
+        }
+    }
+
+
     //calculating availability dynamically.
     private void validateRoomCapacity(BookingRequest request,RoomDetailsResponse room){
         Integer occupiedBeds=bookingRepository.getOccupiedBedsForDateRange(
@@ -423,10 +435,14 @@ public class BookingServiceImpl implements BookingService{
 
     private void validateCancellation(Booking booking){
         if(booking.getStatus()==BookingStatus.CANCELLED){
-            throw new BusinessException("Booking has already been cancelled.");
+            log.info("Booking {} already cancelled.", booking.getBookingId());
+            return;
+//            throw new BusinessException("Booking has already been cancelled.");
         }
         if(booking.getStatus()==BookingStatus.CANCELLATION_IN_PROGRESS){
-            throw new BusinessException("Cancellation is already in progress.");
+            log.info("Cancellation already in progress for booking {}.",booking.getBookingId());
+            return;
+//            throw new BusinessException("Cancellation is already in progress.");
         }
         if(booking.getStatus()==BookingStatus.COMPLETED){
             throw new BusinessException("Completed bookings cannot be cancelled.");
@@ -460,6 +476,7 @@ public class BookingServiceImpl implements BookingService{
                 booking.getNumberOfGuests().equals(request.getNumberOfGuests())){
             throw new BusinessException("No changes detected in booking.");
         }
+        validateDuplicateBookingForReschedule(booking,request);
         validateRoomCapacityForReschedule(booking,request,room);
     }
 
@@ -523,7 +540,7 @@ public class BookingServiceImpl implements BookingService{
             return;
         }
         try{
-            notificationClient.sendNotification(notification);
+            notificationServiceGateway.sendNotification(notification);
             log.info("Notification sent successfully. bookingId={}",notification.getBookingId());
         }
         catch(Exception ex){
@@ -534,7 +551,7 @@ public class BookingServiceImpl implements BookingService{
 
     private void notifyBooking(Booking booking,BookingStatus status,String messageType, RefundResponse refund){
         try {
-            UserResponse user=fetchUser(booking.getUserId());
+            UserResponse user=userServiceGateway.getUser(booking.getUserId());
             String message;
             switch(messageType){
                 case "CHECK_IN":
