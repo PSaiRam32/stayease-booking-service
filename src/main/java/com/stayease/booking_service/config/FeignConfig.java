@@ -26,7 +26,7 @@ public class FeignConfig{
 
     @Bean
     public Retryer retryer(){
-        return new Retryer.Default(1000,2000,3);
+        return  Retryer.NEVER_RETRY;
     }
 
     @Bean

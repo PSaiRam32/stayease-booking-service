@@ -29,7 +29,8 @@ public class SecurityConfig {
                                 "/owner-internal/**",
                                 "/count",
                                 "/properties/rooms/**",
-                                "/bookings/{id}/**"
+                                "/bookings/{id}/**",
+                                "/actuator/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

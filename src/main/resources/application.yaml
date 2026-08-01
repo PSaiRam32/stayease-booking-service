@@ -1,6 +1,81 @@
 server:
   port: 8085
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+
+resilience4j:
+  bulkhead:
+    configs:
+      default:
+        max-concurrent-calls: 10
+        max-wait-duration: 2s
+
+    instances:
+      payment-service:
+        base-config: default
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 2s
+        retry-exceptions:
+          - feign.RetryableException
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+        ignore-exceptions:
+          - java.lang.IllegalArgumentException
+          - jakarta.validation.ValidationException
+
+    instances:
+      notification-service:
+        base-config: default
+
+      payment-service:
+        base-config: default
+
+      property-service:
+        base-config: default
+
+      user-service:
+        base-config: default
+
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        permitted-number-of-calls-in-half-open-state: 3
+        wait-duration-in-open-state: 30s
+        automatic-transition-from-open-to-half-open-enabled: true
+
+        record-exceptions:
+          - feign.FeignException
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+
+    instances:
+      notification-service:
+        base-config: default
+
+      payment-service:
+        base-config: default
+
+      property-service:
+        base-config: default
+
+      user-service:
+        base-config: default
+
 spring:
   application:
     name: booking-service
@@ -24,28 +99,13 @@ logging:
     com.stayease.booking_service.config.PaymentClient: DEBUG
     com.stayease.booking_service.config.NotificationClient: DEBUG
     com.stayease.booking_service.config.UserClient: DEBUG
+    io.github.resilience4j.retry: DEBUG
+    io.github.resilience4j.circuitbreaker: DEBUG
+    io.github.resilience4j.bulkhead: DEBUG
 
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
-
-resilience4j:
-  retry:
-    instances:
-      userRetry:
-        max-attempts: 3
-        wait-duration: 1s
-        retry-exceptions:
-          - feign.FeignException
-          - java.io.IOException
-
-  circuitbreaker:
-    instances:
-      userCB:
-        sliding-window-size: 5
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
-        permitted-number-of-calls-in-half-open-state: 2
 
 ---
 spring:
@@ -74,16 +134,6 @@ feign:
         connect-timeout: 5000
         read-timeout: 25000
 
-services:
-  property:
-    url: http://localhost:8084
-  payment:
-    url: http://localhost:8086
-  notification:
-    url: http://localhost:8087
-  user:
-    url: http://localhost:8082
-
 ---
 spring:
   config:
@@ -107,16 +157,6 @@ feign:
       default:
         connect-timeout: 3000
         read-timeout: 5000
-
-services:
-  property:
-    url: http://test-property-service:8084
-  payment:
-    url: http://test-payment-service:8086
-  notification:
-    url: http://test-notification-service:8087
-  user:
-    url: http://test-user-service:8082
 
 ---
 spring:
@@ -142,16 +182,6 @@ feign:
         connect-timeout: 5000
         read-timeout: 8000
 
-services:
-  property:
-    url: http://cut-property-service:8084
-  payment:
-    url: http://cut-payment-service:8086
-  notification:
-    url: http://cut-notification-service:8087
-  user:
-    url: http://cut-user-service:8082
-
 ---
 spring:
   config:
@@ -175,16 +205,6 @@ feign:
       default:
         connect-timeout: 5000
         read-timeout: 10000
-
-services:
-  property:
-    url: http://ete-property-service:8084
-  payment:
-    url: http://ete-payment-service:8086
-  notification:
-    url: http://ete-notification-service:8087
-  user:
-    url: http://ete-user-service:8082
 
 ---
 spring:
@@ -210,16 +230,6 @@ feign:
         connect-timeout: 7000
         read-timeout: 12000
 
-services:
-  property:
-    url: http://drt-property-service:8084
-  payment:
-    url: http://drt-payment-service:8086
-  notification:
-    url: http://drt-notification-service:8087
-  user:
-    url: http://drt-user-service:8082
-
 ---
 spring:
   config:
@@ -244,12 +254,3 @@ feign:
         connect-timeout: 1000
         read-timeout: 3000
 
-services:
-  property:
-    url: http://property-service
-  payment:
-    url: http://payment-service
-  notification:
-    url: http://notification-service
-  user:
-    url: http://user-service
