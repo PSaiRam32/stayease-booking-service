@@ -78,20 +78,27 @@ This project demonstrates several enterprise backend engineering concepts common
 - Database per Service
 - Booking Lifecycle Management
 - Layered Architecture
+- Domain-Driven Design
 - OpenFeign Client Communication
+- Service Gateway Pattern
+- Netflix Eureka Service Discovery
 - Dynamic Availability Validation
 - Payment Orchestration
 - Booking State Management
 - Spring Data JPA
 - Bean Validation
 - Global Exception Handling
+- Spring Security
+- Header-Based Authentication
 - Centralized Logging
-- Service-to-Service Communication
 - Externalized Configuration
+- Spring Profiles
 - Transaction Management
 - Resilience4j Retry
 - Resilience4j Circuit Breaker
-- Domain-Driven Service Separation
+- Resilience4j Bulkhead
+- Spring Boot Actuator
+- Production Health Monitoring
 
 ---
 
@@ -174,8 +181,14 @@ The Booking Service has been designed with the following objectives:
 
 ## 🚀 Reliability
 
+- Service Gateway Pattern
+- Netflix Eureka Service Discovery
+- OpenFeign Communication
 - Resilience4j Retry
 - Resilience4j Circuit Breaker
+- Resilience4j Bulkhead
+- Spring Boot Actuator
+- Health Monitoring
 - Global Exception Handling
 - Bean Validation
 - Structured Logging
@@ -196,30 +209,41 @@ The Booking Service has been designed with the following objectives:
 | Fault Tolerance | Resilience4j |
 | Validation | Bean Validation |
 | Build Tool | Gradle |
+| Service Discovery | Netflix Eureka |
+| Monitoring | Spring Boot Actuator |
+| Fault Isolation | Resilience4j Bulkhead |
 
 ---
 
 # 🏛 High-Level Architecture
 
-```text
-                    Client Applications
-                             │
-                             ▼
-                   Booking Controller
-                             │
-                             ▼
-                    Booking Service
-                             │
-      ┌──────────────┬──────────────┬──────────────┬──────────────┐
-      ▼              ▼              ▼              ▼
- Repository     Property      Payment        Notification
-                  Client        Client          Client
-                     │              │               │
-                     ▼              ▼               ▼
-              Property Service Payment Service Notification Service
-                             │
-                             ▼
-                      User Service
+```mermaid
+flowchart TB
+
+Client[Client Applications]
+
+Controller[Booking Controller]
+
+Service[Booking Service]
+
+Repository[(Booking Database)]
+
+Property[Property Service]
+
+Payment[Payment Service]
+
+User[User Service]
+
+Notification[Notification Service]
+
+Client --> Controller
+Controller --> Service
+Service --> Repository
+
+Service --> Property
+Service --> Payment
+Service --> User
+Service --> Notification
 ```
 
 ---
@@ -304,6 +328,12 @@ stayease-booking-service
 │   │               │   ├── PaymentFailedException.java
 │   │               │   └── ResourceNotFoundException.java
 │   │               │
+│   │               ├── integration
+│   │               │   ├── NotificationServiceGateway.java
+│   │               │   ├── PaymentServiceGateway.java
+│   │               │   ├── PropertyServiceGateway.java
+│   │               │   └── UserServiceGateway.java
+│   │               │
 │   │               ├── repository
 │   │               │   └── BookingRepository.java
 │   │               │
@@ -322,7 +352,6 @@ stayease-booking-service
 │   │
 │   └── test
 │
-├── .gitattributes
 ├── .gitignore
 ├── build.gradle
 ├── gradlew
@@ -337,16 +366,17 @@ stayease-booking-service
 
 | Package | Responsibility |
 |----------|----------------|
-| **config** | Configures asynchronous processing, OpenFeign clients, inter-service communication, and application infrastructure. |
-| **controller** | Exposes REST APIs for booking management, booking lifecycle, dashboards, booking history, cancellations, rescheduling, check-in, and check-out operations. |
-| **dto** | Contains request and response models exchanged between the Booking Service, API Gateway, and other microservices. |
-| **entity** | Represents the booking domain model and supporting enumerations such as booking status, property status, and washroom type. |
+| **config** | Configures application infrastructure including OpenFeign clients, asynchronous processing, Feign configuration, and external service communication. |
+| **controller** | Exposes REST APIs for booking management, booking lifecycle operations, dashboards, booking history, cancellations, rescheduling, check-in, check-out, and owner-specific operations. |
+| **dto** | Contains request and response models exchanged between the Booking Service, API Gateway, and external microservices. |
+| **entity** | Represents the booking domain model together with supporting enumerations such as booking status, property status, and washroom type. |
 | **exception** | Provides centralized exception handling together with business-specific exceptions for booking validation, payment failures, and missing resources. |
-| **repository** | Performs persistence operations using Spring Data JPA while abstracting database access from the service layer. |
-| **security** | Implements Header Authentication Filter and Spring Security configuration to secure internal and external booking APIs. |
-| **service** | Implements the complete booking lifecycle including booking creation, payment orchestration, availability validation, dashboards, cancellation, rescheduling, check-in, check-out, and notification coordination. |
-| **resources** | Stores Spring Boot configuration, logging configuration, and environment-specific application settings. |
-| **test** | Contains unit and integration tests for controllers, services, repositories, and security components. |
+| **integration** | Implements the Service Gateway Pattern by encapsulating all communication with Property, Payment, User, and Notification Services while providing Retry, Circuit Breaker, Bulkhead, logging, and fallback mechanisms. |
+| **repository** | Performs database operations using Spring Data JPA while abstracting persistence from the business layer. |
+| **security** | Implements Header Authentication Filter and Spring Security configuration for authentication, authorization, and secure internal service communication. |
+| **service** | Implements the complete booking business lifecycle including reservation management, dynamic availability validation, payment orchestration, booking state transitions, dashboard generation, and coordination with external services through the Service Gateway layer. |
+| **resources** | Stores Spring Boot configuration, environment profiles, logging configuration, and application properties. |
+| **test** | Contains unit tests and integration tests covering controllers, services, repositories, security, and business workflows. |
 
 ---
 
@@ -354,28 +384,42 @@ stayease-booking-service
 
 The Booking Service follows a layered architecture where every layer owns a clearly defined responsibility while collaborating with multiple business services through OpenFeign.
 
-```text
-                     Client Request
-                           │
-                           ▼
-                 Booking Controller
-                           │
-                           ▼
-                  Booking Service
-                           │
-      ┌─────────────┬──────────────┬──────────────┬──────────────┐
-      ▼             ▼              ▼              ▼
- Repository   Property Client  Payment Client Notification Client
-      │
-      ▼
- MySQL Database
-      │
-      ├────────► Property Service
-      ├────────► Payment Service
-      ├────────► User Service
-      └────────► Notification Service
-```
+```mermaid
+flowchart TB
 
+Client[Client]
+
+Controller[Controller Layer]
+
+Service[Service Layer]
+
+Gateway[Service Gateway Layer]
+
+Repository[Repository Layer]
+
+DB[(MySQL)]
+
+Property[Property Service]
+
+Payment[Payment Service]
+
+User[User Service]
+
+Notification[Notification Service]
+
+Client --> Controller
+Controller --> Service
+
+Service --> Repository
+Repository --> DB
+
+Service --> Gateway
+
+Gateway --> Property
+Gateway --> Payment
+Gateway --> User
+Gateway --> Notification
+```
 Each layer focuses on a single responsibility:
 
 - **Controller Layer** handles incoming HTTP requests and response generation.
@@ -390,153 +434,159 @@ This separation improves maintainability, scalability, testability, and loose co
 
 # 📚 Package Overview
 
-The Booking Service follows a modular package structure where each package owns a specific responsibility within the reservation domain.
-
----
-
 ## 📁 config
 
-Responsible for configuring the application's infrastructure and service integrations.
+Contains the application's infrastructure configuration.
 
-Includes:
+Major responsibilities include:
 
-- Asynchronous Processing
-- OpenFeign Configuration
-- Property Service Client
-- Payment Service Client
-- User Service Client
-- Notification Service Client
+- OpenFeign Client Configuration
+- Feign Request Interceptor
+- Error Decoder
+- Retry Configuration
+- External Service Clients
+- OpenAPI Configuration
 
 ---
 
 ## 📁 controller
 
-Acts as the entry point for all booking-related REST APIs.
-
-Responsibilities include:
-
-- Booking Creation
-- Booking Retrieval
-- Booking Confirmation
-- Booking Failure Handling
-- Booking Cancellation
-- Booking Rescheduling
-- Check-In
-- Check-Out
-- Booking Completion
-- User Dashboard APIs
-- Owner Dashboard APIs
-- Booking History APIs
-- Revenue Summary APIs
-- Occupied Room Count APIs
-
----
-
-## 📁 dto
-
-Contains request and response models exchanged between clients and services.
-
-Examples include:
-
-- Booking Requests
-- Booking Responses
-- Dashboard Responses
-- Revenue Summary Responses
-- Occupied Room Responses
-- Owner Booking Responses
-- User Booking Responses
-
-DTOs provide a clean separation between internal entities and externally exposed API contracts.
-
----
-
-## 📁 entity
-
-Represents the booking domain.
-
-Current persistent entity:
-
-- Booking
-
-Supporting Enumerations:
-
-- BookingStatus
-- PropertyStatus
-- WashroomType
-
-These classes model reservation state while ensuring strong typing and well-defined lifecycle transitions.
-
----
-
-## 📁 repository
-
-Provides database access using Spring Data JPA.
-
-Repositories include:
-
-- BookingRepository
-
-The repository layer abstracts persistence logic and enables clean separation from business rules.
-
----
-
-## 📁 security
-
-Responsible for protecting booking APIs.
-
-Responsibilities include:
-
-- Header Authentication
-- Spring Security Configuration
-- Request Filtering
-- Role-Based Authorization
-- Internal Service Authentication
-
-This layer ensures that only authenticated users and trusted internal services can access protected booking operations.
-
----
-
-## 📁 service
-
-Contains the core business logic of the Booking Service.
+Exposes REST APIs for booking operations.
 
 Major responsibilities include:
 
 - Booking Creation
 - Booking Retrieval
-- Booking Confirmation
-- Booking Failure Handling
 - Booking Cancellation
+- Booking Confirmation
 - Booking Rescheduling
+- Check-In
+- Check-Out
 - Booking Completion
-- Check-In Management
-- Check-Out Management
 - Booking History
 - Upcoming Bookings
 - Completed Bookings
-- Owner Booking Dashboard
-- User Booking Dashboard
-- Revenue Summary
-- Occupied Room Statistics
-- Availability Validation
-- Payment Coordination
-- Notification Coordination
+- Owner Dashboard APIs
+- User Dashboard APIs
 
-The service layer orchestrates the complete reservation lifecycle while collaborating with Property, Payment, User, and Notification Services.
+---
+
+## 📁 dto
+
+Contains Request and Response DTOs exchanged between clients and services.
+
+Major responsibilities include:
+
+- API Request Models
+- API Response Models
+- Internal Service Communication DTOs
+
+---
+
+## 📁 entity
+
+Contains all JPA entities and enumerations.
+
+Major responsibilities include:
+
+- Booking Entity
+- Booking Status
+- Property Status
+- Washroom Type
 
 ---
 
 ## 📁 exception
 
-Provides centralized exception handling across the application.
+Contains centralized exception handling.
 
-Business exceptions include:
+Major responsibilities include:
 
-- BusinessException
-- PaymentFailedException
-- ResourceNotFoundException
+- Business Exceptions
+- Resource Not Found Exceptions
+- Payment Exceptions
+- Validation Exceptions
+- Global Exception Handler
 
-The GlobalExceptionHandler converts application exceptions into standardized API responses, ensuring consistent error handling throughout the Booking Service.
+---
+
+## 📁 integration
+
+Implements the Service Gateway Pattern.
+
+Major responsibilities include:
+
+- Property Service Gateway
+- Payment Service Gateway
+- User Service Gateway
+- Notification Service Gateway
+- Retry
+- Circuit Breaker
+- Bulkhead
+- Fallback Methods
+- Downstream Service Logging
+
+---
+
+## 📁 repository
+
+Handles all persistence operations.
+
+Major responsibilities include:
+
+- Booking CRUD
+- Custom Database Queries
+- JPA Repository Operations
+
+---
+
+## 📁 security
+
+Implements authentication and authorization.
+
+Major responsibilities include:
+
+- JWT Authentication
+- Header Authentication Filter
+- Spring Security Configuration
+- Internal Service Authentication
+
+---
+
+## 📁 service
+
+Contains the complete booking business logic.
+
+Major responsibilities include:
+
+- Booking Creation
+- Dynamic Availability Validation
+- Payment Order Creation
+- Booking Confirmation
+- Booking Cancellation
+- Booking Rescheduling
+- Booking Completion
+- Check-In
+- Check-Out
+- Booking History
+- Owner Dashboard
+- User Dashboard
+- Revenue Summary
+- Occupancy Statistics
+- Booking Lifecycle Management
+
+---
+
+## 📁 resources
+
+Contains application configuration files.
+
+Major responsibilities include:
+
+- Environment Profiles
+- Spring Boot Configuration
+- Logging Configuration
+- Resilience4j Configuration
 
 ---
 
@@ -544,41 +594,38 @@ The GlobalExceptionHandler converts application exceptions into standardized API
 
 Every booking request follows a structured validation and processing pipeline before being persisted and coordinated with other microservices.
 
-```text
-Customer Request
-        │
-        ▼
-Booking Controller
-        │
-        ▼
-Input Validation
-        │
-        ▼
-Booking Service
-        │
-        ▼
-Property & Room Validation
-        │
-        ▼
-Availability Validation
-        │
-        ▼
-Booking Amount Calculation
-        │
-        ▼
-Create Booking
-        │
-        ▼
-Initiate Payment
-        │
-        ▼
-Persist Booking
-        │
-        ▼
-Send Notification
-        │
-        ▼
-Return Booking Response
+```mermaid
+flowchart TD
+
+A[Booking Request]
+
+B[Validate Request]
+
+C[Fetch Room Details]
+
+D[Validate Availability]
+
+E[Calculate Amount]
+
+F[Create Booking]
+
+G[Create Payment Order]
+
+H[Persist Booking]
+
+I[Send Notification]
+
+J[Return Response]
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+H --> I
+I --> J
 ```
 
 Each stage is responsible for validating a specific business rule before the booking progresses to the next phase, ensuring reservation consistency and preventing invalid bookings.
@@ -589,23 +636,26 @@ Each stage is responsible for validating a specific business rule before the boo
 
 The Booking Service manages reservations through a controlled lifecycle to ensure that every booking follows valid business transitions.
 
-```text
-Booking Created
-       │
-       ▼
-PENDING
-       │
-       ▼
-CONFIRMED
-       │
-       ▼
-CHECKED_IN
-       │
-       ▼
-CHECKED_OUT
-       │
-       ▼
-COMPLETED
+```mermaid
+stateDiagram-v2
+
+[*] --> PENDING
+
+PENDING --> CONFIRMED
+
+PENDING --> FAILED
+
+CONFIRMED --> CHECKED_IN
+
+CHECKED_IN --> CHECKED_OUT
+
+CHECKED_OUT --> COMPLETED
+
+CONFIRMED --> CANCELLED
+
+CONFIRMED --> RESCHEDULED
+
+RESCHEDULED --> CONFIRMED
 ```
 
 Alternative lifecycle transitions:
@@ -650,36 +700,42 @@ The Booking Service enforces these state transitions to maintain data integrity 
 # 🏠 Booking Creation Workflow
 
 Creating a booking involves validating business rules across multiple services before the reservation is successfully created.
+```mermaid
+flowchart TD
 
-```text
-Customer
-      │
-      ▼
-Create Booking Request
-      │
-      ▼
-Validate Request
-      │
-      ▼
-Fetch Property Details
-      │
-      ▼
-Validate Property Status
-      │
-      ▼
-Validate Room Availability
-      │
-      ▼
-Calculate Booking Amount
-      │
-      ▼
-Create Booking (PENDING)
-      │
-      ▼
-Initiate Payment
-      │
-      ▼
-Return Booking Details
+User[Customer]
+
+Request[Booking Request]
+
+Validate[Validate Request]
+
+Property[Property Service]
+
+Availability[Availability Validation]
+
+Amount[Calculate Amount]
+
+Booking[Create Booking]
+
+Payment[Payment Service]
+
+Response[Booking Response]
+
+User --> Request
+
+Request --> Validate
+
+Validate --> Property
+
+Property --> Availability
+
+Availability --> Amount
+
+Amount --> Booking
+
+Booking --> Payment
+
+Payment --> Response
 ```
 
 During booking creation, the Booking Service collaborates with the Property Service to verify property details, room information, pricing, and availability before persisting the reservation.
@@ -690,27 +746,36 @@ During booking creation, the Booking Service collaborates with the Property Serv
 
 The Booking Service delegates all payment responsibilities to the Payment Service while maintaining ownership of the booking lifecycle.
 
-```text
-Booking Created
-        │
-        ▼
-Create Payment Order
-        │
-        ▼
-Payment Service
-        │
-        ▼
-Payment Processing
-        │
-   ┌───────────────┐
-   ▼               ▼
-SUCCESS         FAILURE
-   │               │
-   ▼               ▼
-Confirm Booking   Mark Booking Failed
-   │               │
-   ▼               ▼
-Notify User     Notify User
+```mermaid
+flowchart TD
+
+Booking[Booking Created]
+
+PaymentOrder[Create Payment Order]
+
+PaymentService[Payment Service]
+
+Decision{Payment Successful?}
+
+Confirm[Confirm Booking]
+
+Failed[Booking Failed]
+
+Notify[Send Notification]
+
+Booking --> PaymentOrder
+
+PaymentOrder --> PaymentService
+
+PaymentService --> Decision
+
+Decision -->|Yes| Confirm
+
+Decision -->|No| Failed
+
+Confirm --> Notify
+
+Failed --> Notify
 ```
 
 The Booking Service never manages payment transactions directly. Instead, it coordinates payment processing through the Payment Service and updates the booking status based on the payment outcome.
@@ -721,15 +786,27 @@ The Booking Service never manages payment transactions directly. Instead, it coo
 
 The Booking Service acts as the reservation orchestrator within the StayEase platform.
 
-```text
-                   Booking Service
-                          │
-      ┌───────────┬────────────┬─────────────┬─────────────┐
-      ▼           ▼            ▼             ▼
- Property      Payment       User      Notification
-  Service       Service      Service      Service
-```
+```mermaid
+flowchart LR
 
+Booking[Booking Service]
+
+Property[Property Service]
+
+Payment[Payment Service]
+
+User[User Service]
+
+Notification[Notification Service]
+
+Booking --> Property
+
+Booking --> Payment
+
+Booking --> User
+
+Booking --> Notification
+```
 The service coordinates multiple business domains while maintaining ownership only of reservation data.
 
 Responsibilities include:
@@ -749,26 +826,30 @@ This orchestration approach keeps domain ownership isolated while allowing servi
 
 The Booking Service manages customer check-in by validating the booking state before allowing guests to occupy the reserved accommodation.
 
-```text
-Confirmed Booking
-        │
-        ▼
-Check-In Request
-        │
-        ▼
-Validate Booking
-        │
-        ▼
-Verify Booking Status
-        │
-        ▼
-Update Booking Status
-        │
-        ▼
-CHECKED_IN
-        │
-        ▼
-Notify Customer
+```mermaid
+flowchart TD
+
+Request[Check-In Request]
+
+Validate[Validate Booking]
+
+Status[Verify Booking Status]
+
+Update[Update Status]
+
+Checked[CHECKED_IN]
+
+Notify[Notify Customer]
+
+Request --> Validate
+
+Validate --> Status
+
+Status --> Update
+
+Update --> Checked
+
+Checked --> Notify
 ```
 
 During the check-in process, the Booking Service ensures:
@@ -785,29 +866,30 @@ During the check-in process, the Booking Service ensures:
 
 The Booking Service manages customer check-out after verifying that the booking has already been checked in.
 
-```text
-Checked-In Booking
-        │
-        ▼
-Check-Out Request
-        │
-        ▼
-Validate Booking
-        │
-        ▼
-Verify Booking Status
-        │
-        ▼
-Update Booking Status
-        │
-        ▼
-CHECKED_OUT
-        │
-        ▼
-Complete Booking
-        │
-        ▼
-COMPLETED
+```mermaid
+flowchart TD
+
+Request[Check-Out Request]
+
+Validate[Validate Booking]
+
+Status[Verify Booking Status]
+
+Update[Update Status]
+
+Checkout[CHECKED_OUT]
+
+Complete[COMPLETED]
+
+Request --> Validate
+
+Validate --> Status
+
+Status --> Update
+
+Update --> Checkout
+
+Checkout --> Complete
 ```
 
 During the check-out process, the Booking Service ensures:
@@ -822,33 +904,30 @@ During the check-out process, the Booking Service ensures:
 # ❌ Booking Cancellation Workflow
 
 Booking cancellation follows a controlled workflow to maintain booking consistency and coordinate refund processing.
+```mermaid
+flowchart TD
 
-```text
-Confirmed Booking
-        │
-        ▼
-Cancellation Request
-        │
-        ▼
-Business Validation
-        │
-        ▼
-Update Status
-        │
-        ▼
-CANCELLATION_IN_PROGRESS
-        │
-        ▼
-Initiate Refund
-        │
-        ▼
-Update Booking
-        │
-        ▼
-CANCELLED
-        │
-        ▼
-Notify Customer
+Request[Cancellation Request]
+
+Validate[Business Validation]
+
+Progress[CANCELLATION_IN_PROGRESS]
+
+Refund[Initiate Refund]
+
+Cancelled[CANCELLED]
+
+Notify[Notify Customer]
+
+Request --> Validate
+
+Validate --> Progress
+
+Progress --> Refund
+
+Refund --> Cancelled
+
+Cancelled --> Notify
 ```
 
 The cancellation workflow performs several business validations before cancelling a reservation.
@@ -868,34 +947,39 @@ These validations include:
 
 The Booking Service allows customers to reschedule bookings by validating the newly requested stay period before updating the reservation.
 
-```text
-Existing Booking
-        │
-        ▼
-Reschedule Request
-        │
-        ▼
-Validate New Dates
-        │
-        ▼
-Validate Property
-        │
-        ▼
-Validate Room
-        │
-        ▼
-Check Availability
-        │
-        ▼
-Update Booking
-        │
-        ▼
-RESCHEDULED
-        │
-        ▼
-Notify Customer
-```
+```mermaid
+flowchart TD
 
+Request[Reschedule Request]
+
+Validate[Validate New Dates]
+
+Property[Validate Property]
+
+Room[Validate Room]
+
+Availability[Check Availability]
+
+Update[Update Booking]
+
+Rescheduled[RESCHEDULED]
+
+Notify[Notify Customer]
+
+Request --> Validate
+
+Validate --> Property
+
+Property --> Room
+
+Room --> Availability
+
+Availability --> Update
+
+Update --> Rescheduled
+
+Rescheduled --> Notify
+```
 The rescheduling workflow ensures:
 
 - The booking exists.
@@ -911,23 +995,30 @@ The rescheduling workflow ensures:
 
 The Booking Service provides dedicated dashboards for both customers and property owners.
 
-```text
-Dashboard Request
-        │
-        ▼
-Booking Service
-        │
-        ▼
-Fetch Booking Records
-        │
-        ▼
-Aggregate Booking Data
-        │
-        ▼
-Generate Dashboard
-        │
-        ▼
-Return Dashboard Response
+```mermaid
+flowchart TD
+
+Request[Dashboard Request]
+
+Booking[Booking Service]
+
+Records[Fetch Booking Records]
+
+Aggregate[Aggregate Data]
+
+Dashboard[Generate Dashboard]
+
+Response[Return Response]
+
+Request --> Booking
+
+Booking --> Records
+
+Records --> Aggregate
+
+Aggregate --> Dashboard
+
+Dashboard --> Response
 ```
 
 Dashboard capabilities include:
@@ -956,15 +1047,30 @@ These dashboards provide a consolidated view of reservation activities without e
 
 The Booking Service collaborates with multiple business services to complete reservation processing.
 
-```text
-                 Booking Service
-                        │
-        ┌───────────────┼───────────────┐
-        ▼               ▼               ▼
- Property Service   Payment Service   User Service
-        │
-        ▼
-Notification Service
+```mermaid
+flowchart LR
+
+Booking[Booking Service]
+
+Gateway[Service Gateway]
+
+Property[Property Service]
+
+Payment[Payment Service]
+
+User[User Service]
+
+Notification[Notification Service]
+
+Booking --> Gateway
+
+Gateway --> Property
+
+Gateway --> Payment
+
+Gateway --> User
+
+Gateway --> Notification
 ```
 
 ### Property Service
@@ -1052,24 +1158,30 @@ By isolating reservation management into its own microservice, the StayEase plat
 
 Rather than storing mutable room availability inside the Property Service, StayEase calculates room availability dynamically using booking records.
 
-```text
-Property Service
-        │
-        ▼
-Static Room Information
-(Capacity, Price, Amenities)
-        │
-        ▼
-Booking Service
-        │
-        ▼
-Existing Bookings
-        │
-        ▼
-Calculate Occupied Beds
-        │
-        ▼
-Available Capacity
+```mermaid
+flowchart TD
+
+Property[Property Service]
+
+Room[Static Room Information]
+
+Booking[Booking Service]
+
+Bookings[Existing Bookings]
+
+Calculate[Calculate Occupied Beds]
+
+Available[Available Capacity]
+
+Property --> Room
+
+Room --> Booking
+
+Booking --> Bookings
+
+Bookings --> Calculate
+
+Calculate --> Available
 ```
 
 This strategy ensures that availability always reflects the current reservation state.
@@ -1090,20 +1202,22 @@ This follows the principle that **Property Service owns static room information*
 
 The Booking Service coordinates payment processing but never owns payment transactions.
 
-```text
-Booking Service
-       │
-       ▼
-Create Payment Order
-       │
-       ▼
-Payment Service
-       │
-       ▼
-Payment Result
-       │
-       ▼
-Update Booking Status
+```mermaid
+flowchart LR
+
+Booking[Booking Service]
+
+Payment[Payment Service]
+
+Result[Payment Result]
+
+Status[Update Booking Status]
+
+Booking --> Payment
+
+Payment --> Result
+
+Result --> Status
 ```
 
 The Payment Service remains the single source of truth for financial transactions.
@@ -1171,16 +1285,26 @@ Restricting state transitions ensures that invalid operations such as checking o
 
 The Booking Service collaborates with multiple business services through OpenFeign.
 
-```text
-                Booking Service
-                       │
-      ┌────────────────┼────────────────┐
-      ▼                ▼                ▼
- Property         Payment         User
-  Service          Service       Service
-                       │
-                       ▼
-               Notification Service
+```mermaid
+flowchart LR
+
+Booking[Booking Service]
+
+Property[Property Service]
+
+Payment[Payment Service]
+
+User[User Service]
+
+Notification[Notification Service]
+
+Booking --> Property
+
+Booking --> Payment
+
+Booking --> User
+
+Booking --> Notification
 ```
 
 ### Property Service
@@ -1219,7 +1343,176 @@ Responsible for:
 Using OpenFeign enables each service to maintain its own business domain while collaborating through well-defined APIs.
 
 ---
+# 🌐 Service Gateway Pattern
 
+The Booking Service follows the Service Gateway Pattern to isolate business logic from external service communication.
+
+Instead of invoking OpenFeign clients directly from the service layer, all communication with external microservices is delegated to dedicated gateway classes located in the `integration` package.
+
+These gateway classes encapsulate:
+
+- OpenFeign communication
+- Retry
+- Circuit Breaker
+- Bulkhead Isolation
+- Fallback handling
+- Logging
+- Error handling
+
+```mermaid
+flowchart LR
+
+BookingService
+
+PropertyGateway
+
+PaymentGateway
+
+UserGateway
+
+NotificationGateway
+
+PropertyClient
+
+PaymentClient
+
+UserClient
+
+NotificationClient
+
+PropertyService
+
+PaymentService
+
+UserService
+
+NotificationService
+
+BookingService --> PropertyGateway
+BookingService --> PaymentGateway
+BookingService --> UserGateway
+BookingService --> NotificationGateway
+
+PropertyGateway --> PropertyClient
+PaymentGateway --> PaymentClient
+UserGateway --> UserClient
+NotificationGateway --> NotificationClient
+
+PropertyClient --> PropertyService
+PaymentClient --> PaymentService
+UserClient --> UserService
+NotificationClient --> NotificationService
+```
+
+Benefits include:
+
+- Better separation of concerns
+- Cleaner business logic
+- Centralized resilience handling
+- Easier testing
+- Improved maintainability
+
+---
+# 🔍 Service Discovery Strategy
+
+The Booking Service uses Netflix Eureka for dynamic service discovery.
+
+Rather than using hardcoded URLs, all external services register themselves with the Eureka Server and are discovered automatically during runtime.
+
+```mermaid
+flowchart LR
+
+BookingService --> EurekaServer
+
+PropertyService --> EurekaServer
+
+PaymentService --> EurekaServer
+
+UserService --> EurekaServer
+
+NotificationService --> EurekaServer
+
+BookingService --> PropertyService
+
+BookingService --> PaymentService
+
+BookingService --> UserService
+
+BookingService --> NotificationService
+```
+
+Benefits include:
+
+- Dynamic service registration
+- Automatic service discovery
+- No hardcoded endpoints
+- Simplified scaling
+- Cloud-ready architecture
+
+---
+# 🛡 Fault Tolerance Strategy
+
+The Booking Service implements Resilience4j to improve reliability while communicating with external microservices.
+
+Implemented resilience patterns include:
+
+- Retry
+- Circuit Breaker
+- Bulkhead
+
+```mermaid
+flowchart TD
+
+BookingService
+
+Gateway
+
+Retry
+
+CircuitBreaker
+
+Bulkhead
+
+ExternalService
+
+Fallback
+
+BookingService --> Gateway
+
+Gateway --> Retry
+
+Retry --> CircuitBreaker
+
+CircuitBreaker --> Bulkhead
+
+Bulkhead --> ExternalService
+
+ExternalService -.Failure.-> Fallback
+```
+
+These mechanisms prevent cascading failures, improve service availability, and allow graceful degradation whenever dependent services become unavailable.
+
+---
+# 📊 Monitoring Strategy
+
+The Booking Service uses Spring Boot Actuator to expose operational endpoints for monitoring and production diagnostics.
+
+Available monitoring capabilities include:
+
+- Health Endpoint
+- Metrics
+- Application Information
+- Environment
+- Beans
+- Mappings
+- Thread Dumps
+- Heap Dumps
+
+These endpoints improve operational visibility and simplify production troubleshooting while supporting enterprise monitoring platforms.
+
+
+
+---
 # ⚡ Asynchronous Processing Strategy
 
 The Booking Service uses asynchronous processing for operations that do not need to block the client's request.
@@ -1495,17 +1788,19 @@ Current capabilities include:
 
 - Layered Architecture
 - Database per Service
+- Netflix Eureka
+- Service Gateway Pattern
 - Spring Security
-- OpenFeign Communication
-- Global Exception Handling
+- OpenFeign
+- Resilience4j Retry
+- Resilience4j Circuit Breaker
+- Resilience4j Bulkhead
+- Spring Boot Actuator
 - Bean Validation
-- Transaction Management
 - Structured Logging
-- Asynchronous Processing
-- Environment-Based Configuration
-- Centralized Booking Lifecycle
-- Payment Orchestration
-- Dynamic Availability Validation
+- Transaction Management
+- Spring Profiles
+- Externalized Configuration
 
 These capabilities provide a solid foundation for scalable and maintainable production deployments.
 
@@ -1524,7 +1819,10 @@ Potential future enhancements include:
 - Scheduled Booking Expiration
 - Automated Refund Processing
 - WebSocket Notifications
-- Observability with Micrometer and Prometheus
+- Micrometer Metrics
+- Prometheus
+- Grafana Dashboards
+- OpenTelemetry
 - Distributed Tracing with Zipkin
 - Docker Containerization
 - Kubernetes Deployment
